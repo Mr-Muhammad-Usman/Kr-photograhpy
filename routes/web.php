@@ -32,7 +32,6 @@ Route::post('/user-login-post', [UIcontroller::class, 'login_post'])->name('user
 Route::get('/user-register', [UIcontroller::class, 'register'])->name('user_register');
 Route::post('/user-register-post', [UIcontroller::class, 'register_post'])->name('user_register_post');
 Route::get('/password-reset', [UIcontroller::class, 'password_reset'])->name('user_pass_reset');
-Route::get('/user-myredeem', [UIcontroller::class, 'myredeem'])->name('user_myredeem');
 Route::post('/competition', [UIcontroller::class, 'competition'])->name('competition');
 Route::get('/user-logout', [UIcontroller::class, 'user_logout'])->name('user_logout');
 Route::get('/iframe', [UIcontroller::class, 'iframe'])->name('iframe');
@@ -42,6 +41,8 @@ Route::post('/redeem-code-post', [UIcontroller::class, 'redeem_code_post'])->nam
 Route::group(['middleware'=>['usermiddleware']], function(){
     Route::get('/stripe-form', [UIcontroller::class, 'stripe_form'])->name('stripe_form');
     Route::post('/stripe-events', [UIcontroller::class, 'stripe_events'])->name('stripe.post');
+    Route::get('/user-myredeem', [UIcontroller::class, 'myredeem'])->name('user_myredeem');
+
 });
 //stripe
 

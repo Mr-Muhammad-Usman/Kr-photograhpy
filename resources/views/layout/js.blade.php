@@ -58,3 +58,13 @@ function myFunction() {
   }
 }
 </script>
+<script>
+    function myFunction2() {
+  var y = document.getElementById("login");
+  if (y.type === "password") {
+    y.type = "text";
+  } else {
+    y.type = "password";
+  }
+}
+</script>

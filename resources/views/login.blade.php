@@ -16,7 +16,7 @@
                   name="Email"
                   value="{{ session()->getOldInput('input_pass') }}"
                 />
-                <i class="fa-solid fa-face-smile"></i>
+                <i class="fa-solid fa-face-smile" ></i>
                 <span style="color: crimson">@error('Email'){{ $message }}  @enderror</span><br>
                 @if (session('emailerror'))
                 <span style="color: crimson">Email not found</span><br>
@@ -24,13 +24,13 @@
               </div>
               <div class="labelsinside">
                 <input
-                  type="password"
+                  type="password" id="login"
                   class="form-control"
                   placeholder="Password"
                   name="Pass"
                   value="{{ session()->getOldInput('input_email') }}"
                 />
-                <i class="fa-solid fa-eye"></i>
+                <i class="fa-solid fa-eye" onclick="myFunction2()"></i>
                 <span style="color: crimson">@error('Pass'){{ $message }}  @enderror</span><br>
                 @if (session('passerror'))
                 <span style="color: crimson">Password not found</span><br>
