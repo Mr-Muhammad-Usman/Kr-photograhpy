@@ -38,3 +38,23 @@
         "setTextSize": "55"
     }
 </script>
+<script>
+function myFunction() {
+  var x = document.getElementById("password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
+<script>
+    function myFunction1() {
+  var y = document.getElementById("retype");
+  if (y.type === "password") {
+    y.type = "text";
+  } else {
+    y.type = "password";
+  }
+}
+</script>

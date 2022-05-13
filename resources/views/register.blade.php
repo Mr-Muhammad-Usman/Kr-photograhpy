@@ -34,25 +34,25 @@
               </div>
               <div class="labelsinside">
                 <input
-                  type="password"
+                  type="password" id="password"
                   class="form-control"
                   placeholder="Password"
                   name="Pass"
                   value="{{ session()->getOldInput('Pass') }}"
                 />
-                <i class="fa-solid fa-eye"></i>
+                <i class="fa-solid fa-eye" onclick="myFunction()"></i>
                 <span style="color: crimson">@error('Pass'){{ $message }}  @enderror</span><br>
 
               </div>
               <div class="labelsinside">
                 <input
-                  type="password"
+                  type="password" id="retype"
                   class="form-control"
                   placeholder="Confirm Password"
                   name="con_Pass"
                   value="{{ session()->getOldInput('con_Pass') }}"
                 />
-                <i class="fa-solid fa-eye"></i>
+                <i class="fa-solid fa-eye" onclick="myFunction1()"></i>
                 <span style="color: crimson">@error('con_Pass'){{ $message }}  @enderror</span><br>
 
               </div>

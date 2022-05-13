@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\CompetitionModel;
+use App\Models\strip_order;
 use Illuminate\Http\Request;
 
 class AdminCompetitionController extends Controller
@@ -23,8 +24,20 @@ class AdminCompetitionController extends Controller
     }
     function Competition_delete(CompetitionModel $Competition)
     {
-        $Competition->delete();
-        return back()->with('delete','Deleted Successfully');
+        // dd($Competition->title);
+        $check=strip_order::where('competition_name',$Competition->title)->first();
+        if($check)
+        {
+            // dd('Can not Delet');
+            return back()->with('delete','You cannot delete this. this is already linked with Competition.');
+        }
+        else
+        {
+            // dd('Deleted Successfully');
+            $Competition->delete();
+            return back()->with('delete','Deleted Successfully');
+        }
+
     }
     function Competition_add_edit_data(Request $request,CompetitionModel $Competition)
     {

@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
-use App\Models\TestimonialModel;
+use App\Models\strip_order;
+
 use Illuminate\Http\Request;
 
 class AdminTestimonialsController extends Controller
 {
-    function testimonial_list()
+    function order()
     {
-        $testimonial = TestimonialModel ::get();
-        return view('admin.testimonials.testimonials-list',compact('testimonial'));
+        $order = strip_order ::with('order_with_user')->get();
+        // dd($order);
+        return view('admin.orders.order-list',compact('order'));
     }
     function testimonial_add()
     {
@@ -18,15 +20,15 @@ class AdminTestimonialsController extends Controller
     }
     function testimonial_edit($id)
     {
-        $testimonial = TestimonialModel ::where('id',$id)->first();
+        $testimonial = strip_order ::where('id',$id)->first();
         return view('admin.testimonials.testimonials-edit',compact('testimonial'));
     }
-    function testimonial_delete(TestimonialModel $testimonial)
+    function testimonial_delete(strip_order $testimonial)
     {
         $testimonial->delete();
         return back()->with('delete','Deleted Successfully');
     }
-    function testimonial_add_edit_data(Request $request,TestimonialModel $testimonial)
+    function testimonial_add_edit_data(Request $request,strip_order $testimonial)
     {
         $create = 1;
         (isset($testimonial->id) and $testimonial->id>0)?$create=0:$create=1;

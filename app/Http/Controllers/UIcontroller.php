@@ -169,7 +169,7 @@ class UIcontroller extends Controller
     {
         Auth::logout();
         session()->forget('competition');
-        return redirect()->route('index')->with('failed', 'Logout Successfully');
+        return back()->with('failed', 'Logout Successfully');
     }
     public function iframe()
     {

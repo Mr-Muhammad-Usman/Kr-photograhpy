@@ -36,16 +36,7 @@
                                         <label for="textarea">Email</label>
                                         <input type="email" class="form-control" required value="{{$user->email}}" name="email">
                                     </div>
-                                    <div class="mb-4">
-                                        <label class="my-1 mr-2" for="country">User Role</label>
-                                        <select class="form-select" id="user_role" name="user_role">
-                                            <option selected hidden disabled>Select Role</option>
-                                            <option value="1" {{$user->user_role == 1 ? 'selected' : ''}}>Admin</option>
-                                            <option value="2" {{$user->user_role == 2 ? 'selected' : ''}}>User</option>
-                                            <option value="3" {{$user->user_role == 3 ? 'selected' : ''}}>Vendor</option>
-                                            <option value="4" {{$user->user_role == 4 ? 'selected' : ''}}>Customer</option>
-                                        </select>
-                                    </div>
+
                                     <fieldset class="my-4">
                                         <legend class="h6">Status</legend>
                                         <div class="form-check">
