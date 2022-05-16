@@ -73,7 +73,7 @@
                                               Remember me
                                             </label>
                                         </div> --}}
-                                        <div><a href="#" class="small text-right">Lost password?</a></div>
+{{--                                        <div><a href="#" class="small text-right">Lost password?</a></div>--}}
                                     </div>
                                 </div>
                                 <button type="submit" class="btn btn-block btn-primary">Sign in</button>
@@ -92,12 +92,12 @@
                                     <span aria-hidden="true" class="fab fa-github"></span>
                                 </button>
                             </div> --}}
-                            <div class="d-flex justify-content-center align-items-center mt-4">
-                                <span class="font-weight-normal">
-                                    Not registered?
-                                    <a href="./sign-up.html" class="font-weight-bold">Create account</a>
-                                </span>
-                            </div>
+{{--                            <div class="d-flex justify-content-center align-items-center mt-4">--}}
+{{--                                <span class="font-weight-normal">--}}
+{{--                                    Not registered?--}}
+{{--                                    <a href="./sign-up.html" class="font-weight-bold">Create account</a>--}}
+{{--                                </span>--}}
+{{--                            </div>--}}
                         </div>
                     </div>
                 </div>

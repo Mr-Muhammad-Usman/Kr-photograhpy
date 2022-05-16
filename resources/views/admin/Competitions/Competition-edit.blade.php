@@ -32,10 +32,10 @@
                                         <label for="title">Competition Title</label>
                                         <input type="text" class="form-control" required value="{{$Competition->title}}" name="title">
                                     </div>
-                                    {{-- <div class="my-4">
-                                        <label for="textarea">Competition Description</label>
-                                        <textarea class="form-control" placeholder="Enter your message..." id="textarea" rows="4" name="description">{{$Competition->description}}</textarea>
-                                    </div> --}}
+                                    <div class="my-4">
+                                        <label for="textarea">Video</label>
+                                        <input type="text" class="form-control" required name="url" value="{{$Competition->url}}">
+                                    </div>
                                     {{-- <div class="form-file mb-3">
                                         <input type="file" class="form-file-input" id="customFile" required name="images" onchange="loadFile($(this))">
                                         <label class="form-file-label" for="customFile">

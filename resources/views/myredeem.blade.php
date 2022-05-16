@@ -20,14 +20,22 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
+<?php
+    $count=1;
+    ?>
                   {{-- @dd($data) --}}
-                  <td>{{ $data ? Auth::user()->email : ""}}</td>
-                  <td>{{ $data ? $data->competition_name : ""}}</td>
-                  <td>{{ $data ? $data->competition_date : ""}}</td>
-                  <td>{{ $data ? $data->redeem_code : ""}}</td>
-                </tr>
+                    @foreach($data as $item)
+                        <tr>
+
+
+                  <td>{{$count ++}}</td>
+                  <td>{{ $item ? Auth::user()->email : ""}}</td>
+                  <td>{{ $item ? $item->competition_name : ""}}</td>
+                  <td>{{ $item ? $item->competition_date : ""}}</td>
+                  <td>{{ $item ? $item->redeem_code : ""}}</td>
+                        </tr>
+                    @endforeach
+
 
               </tbody>
               <tfoot>

@@ -23,13 +23,16 @@
                      <div class="navigation" id="navbar">
                          <ul class="navbar-set">
                              <li>
-                                 <a href="index.html"><i class="fa-brands fa-facebook-f"></i></a>
+                                 <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
                              </li>
                              <li>
-                                 <a href="index.html"><i class="fa-brands fa-twitter"></i></a>
+                                 <a href="#"><i class="fa-brands fa-twitter"></i></a>
                              </li>
                              <li>
-                                 <a href="index.html"><i class="fa-brands fa-instagram"></i></a>
+                                 <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                             </li>
+                             <li>
+                                 <a href="{{route('index')}}">Home</a>
                              </li>
                              <li class=""><a href="{{ route('ui_redeem_code') }}">Redeem code</a>
                              @if (Auth::check() && Auth::user()->role == 0)
@@ -37,7 +40,9 @@
                                     <div class="dropdown">
                                         <button class="dropbtn">{{ Auth::user()->username }}</button>
                                         <div class="dropdown-content">
-                                            <a href="{{ route('user_myredeem') }}">My Redeem</a>
+                                            <a href="{{ route('user_myredeem') }}">My Redeem Code</a>
+                                            <a href="{{ route('user_profile') }}">Profile</a>
+{{--                                            <a href="{{ route('reset_password') }}">Reset Password</a>--}}
                                             <a href="{{ route('user_logout') }}">LogOut</a>
                                         </div>
                                     </div>

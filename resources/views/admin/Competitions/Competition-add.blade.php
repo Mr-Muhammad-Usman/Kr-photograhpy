@@ -31,10 +31,10 @@
                                         <label for="title">Title</label>
                                         <input type="text" class="form-control" required name="title" placeholder="Enter your title...">
                                     </div>
-                                    {{-- <div class="my-4">
-                                        <label for="textarea">Description</label>
-                                        <textarea class="form-control" placeholder="Enter your message..." id="textarea" rows="4" name="description"></textarea>
-                                    </div> --}}
+                                     <div class="my-4">
+                                        <label for="textarea">Video</label>
+                                         <input type="text" class="form-control" required name="url" placeholder="Enter your Video url...">
+                                    </div>
                                     {{-- <div>
                                         <label for="textarea">Competition Image</label>
                                         <div class="form-file mb-3">

@@ -50,7 +50,7 @@ class AdminCompetitionController extends Controller
         //     $Competition->images = $imageName;
         // }
         $Competition->title = $request->title;
-        // $Competition->description = $request->description;
+        $Competition->url = $request->url;
         // $Competition->author = Auth()->user()->id;
         $Competition->status = $request->status;
         $Competition->save();

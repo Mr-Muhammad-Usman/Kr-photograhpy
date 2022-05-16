@@ -10,7 +10,8 @@
                 @csrf
               <div class="labelsinside">
                 <input autocomplete='off'
-                    class='form-control' maxlength="24" size='25' type='text' name="redeem_code">
+                    class='form-control' maxlength="24" size='25' type='text' name="redeem_code"
+                placeholder="Enter Redeem Code...">
                 <span style="color: crimson">@error('redeem_code'){{ $message }}  @enderror</span><br>
                 @if (session('Redeemerror'))
                 <span style="color: crimson">Redeem code not found</span><br>

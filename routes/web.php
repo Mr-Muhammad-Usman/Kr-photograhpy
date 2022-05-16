@@ -8,6 +8,7 @@ use App\Http\Controllers\admin\AdminTestimonialsController;
 use App\Http\Controllers\admin\AdminServicesController;
 use App\Http\Controllers\admin\AdminProductDetailsController;
 use App\Http\Controllers\UIcontroller;
+use App\Http\Controllers\CheckoutController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,11 +39,27 @@ Route::get('/iframe', [UIcontroller::class, 'iframe'])->name('iframe');
 Route::get('/redeem-code', [UIcontroller::class, 'redeem_code'])->name('ui_redeem_code');
 Route::post('/redeem-code-post', [UIcontroller::class, 'redeem_code_post'])->name('redeem_code_post');
 
+
+
+// Video link
+// https://www.youtube.com/watch?v=CoK2XRdC9cQ&ab_channel=ExpertRohila
+
+//for paypal
+Route::post('/charge', [CheckoutController::class,'charge'])->name('charge');
+Route::get('/success', [CheckoutController::class,'success'])->name('success');
+Route::get('/error', [CheckoutController::class,'error'])->name('error');
+
+
 Route::group(['middleware'=>['usermiddleware']], function(){
     Route::get('/stripe-form', [UIcontroller::class, 'stripe_form'])->name('stripe_form');
     Route::post('/stripe-events', [UIcontroller::class, 'stripe_events'])->name('stripe.post');
     Route::get('/user-myredeem', [UIcontroller::class, 'myredeem'])->name('user_myredeem');
+    Route::get('/payment-method', [UIcontroller::class, 'payment_method'])->name('payment_method');
 
+    Route::get('/user-profile', [UIcontroller::class, 'user_profile'])->name('user_profile');
+    Route::post('/user-profile-post', [UIcontroller::class, 'user_profile_post'])->name('user_profile_post');
+//Route::get('/reset-password', [UIcontroller::class, 'reset_password'])->name('reset_password');
+    Route::post('/reset-password-post', [UIcontroller::class, 'reset_password_post'])->name('reset_password_post');
 });
 //stripe
 
