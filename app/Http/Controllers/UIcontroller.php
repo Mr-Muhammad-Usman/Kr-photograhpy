@@ -153,7 +153,7 @@ class UIcontroller extends Controller
             $orders = new strip_order;
             $orders->payer_id = $stripe->id;
             $orders->user_id = Auth::user()->id;
-            $orders->price = $request->price;
+            $orders->price = 10;
             $orders->status = $stripe->status;
             $orders->redeem_code = $redeem_code;
             $orders->receipt_url = $stripe->receipt_url;

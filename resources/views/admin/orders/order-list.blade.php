@@ -32,6 +32,7 @@
                         <th class="border-0">Competition Date</th>
                         <th class="border-0">Price</th>
                         <th class="border-0">Redeem Code</th>
+                        <th class="border-0">payment method</th>
                         <th class="border-0">Receipt</th>
                     </tr>
                     </thead>
@@ -46,6 +47,7 @@
                             <td class="border-0">{{ $value->competition_date }}</td>
                             <td class="border-0">{{ $value->price }}</td>
                             <td class="border-0">{{ $value->redeem_code }}</td>
+                            <td class="border-0">{{ $value->payment_method }}</td>
                             <td class="border-0"><a href="{{ $value->receipt_url }}" target="_blank">Invoice</a></td>
 
                         </tr>

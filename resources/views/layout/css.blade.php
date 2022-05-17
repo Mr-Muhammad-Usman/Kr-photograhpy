@@ -11,3 +11,6 @@
 
 {{-- //css toastr links --}}
 <link href="{{asset('toastr_build/toastr.css')}}" rel="stylesheet" type="text/css" />
+
+{{--Square link--}}
+

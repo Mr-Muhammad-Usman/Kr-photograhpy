@@ -11,7 +11,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-4 col-md-4">
-                    <a href="javascript:void" class="">
+                    <a href="{{route('square_page')}}" class="">
                         <div class="payment_div">
                             <img src="images/p1.png" class="img-fluid" alt="">
                         </div>

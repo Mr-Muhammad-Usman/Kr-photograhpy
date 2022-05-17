@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- Primary Meta Tags -->
-<title>Volt Bootstrap 5 Dashboard - Sign in page</title>
+<title>kr-Photogs Photography</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="title" content="Volt Bootstrap 5 Dashboard - Sign in page">
 <meta name="author" content="Themesberg">

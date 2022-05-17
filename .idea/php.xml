@@ -124,6 +124,10 @@
       <path value="$PROJECT_DIR$/vendor/php-http/message" />
       <path value="$PROJECT_DIR$/vendor/php-http/message-factory" />
       <path value="$PROJECT_DIR$/vendor/php-http/promise" />
+      <path value="$PROJECT_DIR$/vendor/square/square" />
+      <path value="$PROJECT_DIR$/vendor/apimatic/jsonmapper" />
+      <path value="$PROJECT_DIR$/vendor/apimatic/unirest-php" />
+      <path value="$PROJECT_DIR$/vendor/square/connect" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.3" />

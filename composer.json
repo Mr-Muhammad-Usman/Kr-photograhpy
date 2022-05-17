@@ -13,6 +13,8 @@
         "laravel/tinker": "^2.5",
         "league/omnipay": "^3.2",
         "omnipay/paypal": "^3.0",
+        "square/connect": "^3.20200528",
+        "square/square": "19.0.0.20220512",
         "stripe/stripe-php": "^8.0"
     },
     "require-dev": {

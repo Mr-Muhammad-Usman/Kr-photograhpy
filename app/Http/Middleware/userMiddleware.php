@@ -21,7 +21,7 @@ class userMiddleware
         //
         if(Auth::check() && Auth::user()->role==0)
         {
-            $emails=strip_order::where('user_id',Auth::user()->id && Auth::user()->role==0)->first();
+            $emails=strip_order::where('user_id',Auth::user()->id && Auth::user()->user_role==0)->first();
             if($emails)
             {
                 // dd('nahe mela');

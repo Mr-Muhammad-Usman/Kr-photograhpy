@@ -16,8 +16,8 @@ class SessionMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth::user()){
-            return redirect(route('login_page'));
+        if(!Auth::user() ){
+            return redirect(route('admin_login'));
         }
         return $next($request);
     }

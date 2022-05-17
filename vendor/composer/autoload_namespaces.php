@@ -6,5 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Unirest\\' => array($vendorDir . '/apimatic/unirest-php/src'),
     'Mockery' => array($vendorDir . '/mockery/mockery/library'),
 );

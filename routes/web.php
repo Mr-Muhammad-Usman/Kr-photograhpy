@@ -9,6 +9,7 @@ use App\Http\Controllers\admin\AdminServicesController;
 use App\Http\Controllers\admin\AdminProductDetailsController;
 use App\Http\Controllers\UIcontroller;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\AdminSquarePaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,7 +40,15 @@ Route::get('/iframe', [UIcontroller::class, 'iframe'])->name('iframe');
 Route::get('/redeem-code', [UIcontroller::class, 'redeem_code'])->name('ui_redeem_code');
 Route::post('/redeem-code-post', [UIcontroller::class, 'redeem_code_post'])->name('redeem_code_post');
 
+//square
+Route::get('/square-page', [AdminSquarePaymentController::class, 'square_page'])->name('square_page');
+Route::post('/add-card', [AdminSquarePaymentController::class, 'addCard'])->name('add-card');
 
+
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+//Route::post('/add-card', 'AdminSquarePaymentController@addCard')->name('add-card');
 
 // Video link
 // https://www.youtube.com/watch?v=CoK2XRdC9cQ&ab_channel=ExpertRohila
