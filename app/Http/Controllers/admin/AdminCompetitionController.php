@@ -41,6 +41,11 @@ class AdminCompetitionController extends Controller
     }
     function Competition_add_edit_data(Request $request,CompetitionModel $Competition)
     {
+        $request->validate([
+            'title'=>'required',
+            'comp_date'=>'required',
+            'comp_amount'=>'required',
+        ]);
         $create = 1;
         (isset($Competition->id) and $Competition->id>0)?$create=0:$create=1;
         // if($request->hasFile('images'))
@@ -51,8 +56,9 @@ class AdminCompetitionController extends Controller
         // }
         $Competition->title = $request->title;
         $Competition->url = $request->url;
-        // $Competition->author = Auth()->user()->id;
+        $Competition->competition_date = $request->comp_date;
         $Competition->status = $request->status;
+        $Competition->amount = $request->comp_amount;
         $Competition->save();
         if($create == 0)
         {

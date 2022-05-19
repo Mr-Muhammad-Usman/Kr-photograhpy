@@ -29,23 +29,24 @@
                                 <form action="{{route('admin_Competition_add_edit')}}" method="POST" enctype="multipart/form-data">@csrf
                                     <div class="mb-4">
                                         <label for="title">Title</label>
-                                        <input type="text" class="form-control" required name="title" placeholder="Enter your title...">
+                                        <input type="text" class="form-control"  name="title" placeholder="Enter your title...">
                                     </div>
-                                     <div class="my-4">
+                                    <sqan style="color: crimson">@error('title'){{$message}}@enderror</sqan>
+                                    <div class="my-4">
+                                        <label for="textarea">Competition Date</label>
+                                        <input type="date" class="form-control"  name="comp_date" placeholder="Enter Competition Date...">
+                                    </div>
+                                    <sqan style="color: crimson">@error('comp_date'){{$message}}@enderror</sqan>
+                                    <div class="my-4">
+                                        <label for="textarea">Competition Amount</label>
+                                        <input type="number" class="form-control"  name="comp_amount" placeholder="Enter Amount...">
+                                    </div>
+                                    <sqan style="color: crimson">@error('comp_amount'){{$message}}@enderror</sqan>
+                                    <div class="my-4">
                                         <label for="textarea">Video</label>
-                                         <input type="text" class="form-control" required name="url" placeholder="Enter your Video url...">
+                                        <input type="text" class="form-control" name="url" placeholder="Enter your Video url...">
                                     </div>
-                                    {{-- <div>
-                                        <label for="textarea">Competition Image</label>
-                                        <div class="form-file mb-3">
-                                            <input type="file" class="form-file-input" id="customFile" required name="images" onchange="loadFile($(this))">
-                                            <label class="form-file-label" for="customFile">
-                                                <span class="form-file-text">Choose file...</span>
-                                                <span class="form-file-button">Browse</span>
-                                            </label>
-                                            <img class="img-fluid image-preview" alt="" id="output">
-                                        </div>
-                                    </div> --}}
+
                                     <fieldset class="my-4">
                                         <legend class="h6">Status</legend>
                                         <div class="form-check">

@@ -88,9 +88,9 @@
                                         <tbody>
                                             <tr>
                                                 {{-- <th>Brandix Spark Plug Kit</th> --}}
-                                                <td>{{ session()->get('competition')[0] }}</td>
-                                                <td>{{ session()->get('competition')[1] }}</td>
-                                                <td >$10 </td>
+                                                <td>{{ session()->get('competition')['title'] }}</td>
+                                                <td>{{ session()->get('competition')['date'] }}</td>
+                                                <td >${{ session()->get('competition')['amount'] }} </td>
                                             </tr>
                                             {{-- <tr>
                                 <th>Shipment Charges</th>

@@ -31,10 +31,10 @@
                         <form class="row" action="{{ route('competition') }}" method="post">
                             @csrf
                             <div class="col-md-5 col-sm-5 col-xs-12">
-                                <select class="form-select" aria-label="Default select example" name="comp">
+                                <select class="form-select" aria-label="Default select example" id="comp_name" name="comp">
                                     <option selected hidden value="">pick a competition</option>
                                     @foreach ($competition as $item)
-                                        <option value="{{ $item->title }}">{{ $item->title }}</option>
+                                        <option value="{{ $item->id }}">{{ $item->title }}</option>
                                     @endforeach
                                 </select>
                                 <span style="color: red; font-size: 20px;">
@@ -44,7 +44,7 @@
                                 </span>
                             </div>
                             <div class="col-md-5 col-sm-5 col-xs-12">
-                                <input type="date" class="form-control" placeholder="STREAMING DATE" name="dates" />
+                                    <input type="date"  disabled class="form-control" id="comp_date" value="" />
                                 <span style="color: red; font-size: 20px;">
                                     @error('dates')
                                         {{ $message }}
@@ -163,3 +163,42 @@
     </main>
     <!-- end main -->
 @endsection
+@push('js')
+    <script src="https://code.jquery.com/jquery-3.5.0.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#comp_name").change(function(){
+                // e.preventDefault();
+                var name = $( "#comp_name" ).val();
+
+                //   var formData = new FormData(this);
+                $.ajax({
+                    url:"{{url('comp_ajax')}}",
+                    type: 'POST',
+                    data: {
+                        name:name,
+                        '_token': '{{csrf_token()}}',
+                    },
+                    cache: false,
+                    success: function(data) {
+                        if(data !== "")
+                        {
+                            $('#comp_date').val(data.data);
+                            // alert(data.data);
+                        }
+                        else
+                        {
+                            alert("Error");
+                        }
+                        // $("#name")[0].reset();
+                    }
+                });
+
+            });
+
+        });
+
+
+    </script>
+
+@endpush

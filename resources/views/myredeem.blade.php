@@ -12,10 +12,13 @@
               <thead>
                 <tr>
                   <th>S.No</th>
-                  <th>Email</th>
+                  <th>Name</th>
                   <th>Competition Name</th>
                   <th>Competition Date</th>
-                  <th>Redeem Code</th>
+                  <th>Booking date</th>
+                    <th>Price</th>
+                    <th>Redeem Code</th>
+
 
                 </tr>
               </thead>
@@ -29,10 +32,13 @@
 
 
                   <td>{{$count ++}}</td>
-                  <td>{{ $item ? Auth::user()->email : ""}}</td>
-                  <td>{{ $item ? $item->competition_name : ""}}</td>
+                  <td>{{ $item ? Auth::user()->username : ""}}</td>
+                  <td>{{ $item ? $item->order_with_comp->title : ""}}</td>
                   <td>{{ $item ? $item->competition_date : ""}}</td>
-                  <td>{{ $item ? $item->redeem_code : ""}}</td>
+                  <td>{{date('Y-m-d',strtotime($item->created_at))}}</td>
+                            <td>${{ $item ? $item->price : ""}}</td>
+                            <td>{{ $item ? $item->redeem_code : ""}}</td>
+
                         </tr>
                     @endforeach
 
@@ -41,10 +47,14 @@
               <tfoot>
                 <tr>
                     <th>S.No</th>
-                    <th>Email</th>
+                    <th>Name</th>
                     <th>Competition Name</th>
                     <th>Competition Date</th>
+                    <th>Booking date</th>
+                    <th>Price</th>
                     <th>Redeem Code</th>
+
+
                 </tr>
               </tfoot>
             </table>

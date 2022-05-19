@@ -30,20 +30,20 @@
                                 <form action="{{route('admin_Competition_add_edit').'/'.$Competition->id}}" method="POST" enctype="multipart/form-data">@csrf
                                     <div class="mb-4">
                                         <label for="title">Competition Title</label>
-                                        <input type="text" class="form-control" required value="{{$Competition->title}}" name="title">
+                                        <input type="text" class="form-control"  value="{{$Competition->title}}" name="title">
+                                    </div>
+                                    <div class="my-4">
+                                        <label for="textarea">Competition Date</label>
+                                        <input type="date" class="form-control"  name="comp_date" value="{{$Competition->competition_date}}">
+                                    </div>
+                                    <div class="my-4">
+                                        <label for="textarea">Competition Amount</label>
+                                        <input type="number" class="form-control"  name="comp_amount" value="{{$Competition->amount}}">
                                     </div>
                                     <div class="my-4">
                                         <label for="textarea">Video</label>
-                                        <input type="text" class="form-control" required name="url" value="{{$Competition->url}}">
+                                        <input type="text" class="form-control" name="url" value="{{$Competition->url}}">
                                     </div>
-                                    {{-- <div class="form-file mb-3">
-                                        <input type="file" class="form-file-input" id="customFile" required name="images" onchange="loadFile($(this))">
-                                        <label class="form-file-label" for="customFile">
-                                            <span class="form-file-text">Choose file...</span>
-                                            <span class="form-file-button">Browse</span>
-                                        </label>
-                                        <img class="img-fluid image-preview" alt="" id="" src="{{url('uploads/Competition/').'/'.$Competition->images}}">
-                                    </div> --}}
                                     <fieldset class="my-4">
                                         <legend class="h6">Status</legend>
                                         <div class="form-check">

@@ -37,6 +37,8 @@
             </div>
         </div>
     </section>
+
+
     <div class="card border-light shadow-sm mb-4">
         <div class="card-body">
             @if(Session::has('delete'))
@@ -59,6 +61,7 @@
                     </tr>
                     </thead>
                     <tbody>
+
                     <!-- Item -->
                     <!-- Start of Item -->
                     @foreach($order as $key=>$value)
@@ -74,9 +77,22 @@
 
                         </tr>
                     @endforeach
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>Total</td>
+                        <td>{{$price}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tfoot>
                     <!-- End of Item -->
                     <!-- Item -->
-                    </tbody>
+
                 </table>
             </div>
         </div>

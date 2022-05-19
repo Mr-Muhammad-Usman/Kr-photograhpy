@@ -15,7 +15,10 @@ class AdminAuthController extends Controller
 
     public function login_data(Request $req)
     {
-        if(!empty($req->email)&&!empty($req->password)){
+        $req->validate([
+            'email'=>'required',
+            'password'=>'required',
+        ]);
             $userfind=User::where('email',$req->email)->where('user_role',1)->first();
             if($userfind){
                 /*means found user*/
@@ -30,15 +33,14 @@ class AdminAuthController extends Controller
                     }
                     /*matched password end*/
                 }else{
-                    return redirect(route('admin_login'))->with('Failed_Password','Password is incorrect')->with('email',$req->email);
+                    session()->flash('passerror');
+                    return back();
                 }
                 /*means found user end*/
             }else{
-                return redirect(route('admin_login'))->with('Failed_Email','Email not found');
+                session()->flash('emailerror');
+                return back();
             }
-        }else{
-            return redirect(route('admin_login'))->with('Failed_Empty','Please fill required fields');
-        }
     }
     public function logout()
     {

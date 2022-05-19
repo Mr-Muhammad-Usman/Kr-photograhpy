@@ -1,6 +1,6 @@
-
-<script src="{{ asset('js/wow.js') }}"></script>
 <script src="{{ asset('js/jquery-3.6.0.min.js') }}"></script>
+<script src="{{ asset('js/wow.js') }}"></script>
+
 <script src="{{ asset('slick/slick.js') }}"></script>
 <script src="{{ asset('slick/slick.min.js') }}"></script>
 <script src="{{ asset('js/jquery.slicknav.js') }}"></script>
@@ -8,6 +8,7 @@
 <script src="{{ asset('js/bootstrap.js') }}"></script>
 <script src="{{ asset('js/custom.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTables.min.js') }}"></script>
+<script type="text/javascript" src="https://js.squareupsandbox.com/v2/paymentform"></script>
 <script>
     $(document).ready(function () {
       $("#example").DataTable();
@@ -70,8 +71,7 @@ function myFunction() {
 </script>
 
 {{--Square js start--}}
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script type="text/javascript" src="https://js.squareupsandbox.com/v2/paymentform">
+
     <script>
         $('#success').hide();
         const paymentForm = new SqPaymentForm({

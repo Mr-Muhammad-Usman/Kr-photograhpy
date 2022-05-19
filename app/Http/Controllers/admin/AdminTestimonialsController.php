@@ -52,4 +52,14 @@ class AdminTestimonialsController extends Controller
             return back()->with('success','Added Successfully');
         }
     }
+    function order_filter(Request $request)
+    {
+        $order = strip_order ::where('created_at','>=',$request->start_date)
+            ->where('created_at','<=',$request->and_date,)->get();
+        $price = strip_order ::where('created_at','>=',$request->start_date)
+            ->where('created_at','<=',$request->and_date,)->sum('price');
+//        dd($order);
+        return view('admin.orders.order-list-filter',compact('order','price'));
+    }
+
 }

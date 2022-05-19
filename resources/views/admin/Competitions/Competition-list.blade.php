@@ -30,7 +30,8 @@
                     <tr>
                         <th class="border-0">#</th>
                         <th class="border-0">Name</th>
-                        {{-- <th class="border-0">Image</th> --}}
+                        <th class="border-0">Competition Date</th>
+                        <th class="border-0">Competition Amount</th>
                         <th class="border-0">Status</th>
                         <th class="border-0">Action</th>
                     </tr>
@@ -42,9 +43,8 @@
                         <tr>
                             <td class="border-0"><a href="#" class="text-primary font-weight-bold">{{$key+1}}</a> </td>
                             <td class="border-0 font-weight-bold">{{$value->title}}</td>
-                            {{-- <td class="border-0">
-                                <img class="img-list" src="{{asset('uploads/Competition/'.$value->images)}}" alt="{{$value->title}}">
-                            </td> --}}
+                            <td class="border-0 font-weight-bold">{{$value->competition_date}}</td>
+                            <td class="border-0 font-weight-bold">${{$value->amount}}</td>
                             <td class="border-0 font-weight-bold">
                                 <span class="{{$value->status == 1 ? 'text-success' : 'text-danger'}}">{{$value->status == 1 ? 'Active' : 'Inactive'}}</span>
                             </td>

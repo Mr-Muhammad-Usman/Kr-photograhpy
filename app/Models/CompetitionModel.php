@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class CompetitionModel extends Model
 {
-    protected $table= "Competitions";
+    protected $table= "competitions";
     use HasFactory;
 }

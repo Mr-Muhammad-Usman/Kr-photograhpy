@@ -28,7 +28,8 @@ class UIcontroller extends Controller
     }
     public function myredeem()
     {
-        $data = strip_order::where('user_id', Auth::user()->id)->get();
+        $data = strip_order::with('order_with_comp')->where('user_id', Auth::user()->id)->get();
+//        dd($data);
         return view('myredeem', compact('data'));
     }
     public function login()
@@ -103,15 +104,21 @@ class UIcontroller extends Controller
             $request,
             [
                 'comp' => 'required|not_in:0',
-                'dates' => 'required',
-                // 'Pass'=>'min:6|required',
             ],
             [
                 'comp.required' => 'Please select competition.',
-                'dates.required' => 'Please select date.',
             ]
         );
-        session()->put('competition', [$request->comp, $request->dates]);
+        $com=CompetitionModel::where('id',$request->comp)->first();
+//        dd($com);
+        session()->put('competition', [
+            'id'=>$com->id,
+            'title'=>$com->title,
+            'date'=>$com->competition_date,
+            'amount'=>$com->amount,
+            'url'=>$com->url]);
+//        $test=session()->get('competition');
+//        dd($test['id']);
         return redirect()->route('payment_method');
     }
     public function stripe_form()
@@ -146,10 +153,7 @@ class UIcontroller extends Controller
         $stripe = $this->stripe_payment($request->email, $request->stripeToken, 10, 'Competition RedeemCode Payment');
         if ($stripe->status === "succeeded") {
             $redeem_code = date('Ymd').time().rand(111111,999999);
-            $comp_name=session()->get('competition')[0];
-            $comp_date=session()->get('competition')[1];
-            $comp_id=CompetitionModel::where('title',$comp_name)->first();
-//            dd($comp_id->id);
+            $session=session()->get('competition');
             $orders = new strip_order;
             $orders->payer_id = $stripe->id;
             $orders->user_id = Auth::user()->id;
@@ -157,9 +161,9 @@ class UIcontroller extends Controller
             $orders->status = $stripe->status;
             $orders->redeem_code = $redeem_code;
             $orders->receipt_url = $stripe->receipt_url;
-            $orders->competition_name =$comp_name ;
-            $orders->competition_date = $comp_date;
-            $orders->url = $comp_id->id;
+            $orders->competition_name =$session['id'] ;
+            $orders->competition_date = $session['date'] ;
+            $orders->url = $session['url'] ;
             $orders->payment_method = 'stripe';
 
             $orders->save();
@@ -203,19 +207,31 @@ class UIcontroller extends Controller
 
             'redeem_code' => 'required|min:24',
         ]);
-        $redeem=strip_order::where('redeem_code',$request->redeem_code)->first();
+        $date = Carbon::now();
+        $redeem=strip_order::where('redeem_code',$request->redeem_code)
+            ->where('created_at',$date->format('Y-m-d'))
+            ->first();
+
 //        dd($redeem);
 
         if($redeem)
         {
-            session()->put('redeem',[$redeem->redeem_code,$redeem->url]);
-//             dd(session()->get('redeem'));
+            $redeem_date=strip_order::where('created_at',$date->format('Y-m-d'))->first();
+            if ($redeem_date)
+            {
+                session()->put('redeem',[$redeem->redeem_code,$redeem->url]);
+                return redirect()->route('iframe');
+            }
+            else
+            {
+                session()->flash('Redeemerror1');
+                return back();
+            }
 
-            return redirect()->route('iframe');
         }
         else
         {
-            session()->flash('Redeemerror');
+            session()->flash('Redeemerror2');
             return back();
         }
 
@@ -260,5 +276,14 @@ class UIcontroller extends Controller
     public function payment_method()
     {
         return view('payment_method');
+    }
+    public function comp_ajax(Request  $req)
+    {
+        $comp_data=CompetitionModel::where('id',$req->name)->first();
+//        dd($comp_data->competition_date);
+        return response()->json([
+            'status' => 1,
+            'data' => $comp_data->competition_date,
+        ]);
     }
 }

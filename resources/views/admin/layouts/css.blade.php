@@ -12,4 +12,5 @@
 
 <!-- Data Tables -->
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.1/css/jquery.dataTables.css">
+{{--<link href="{{ asset('css/custom.css') }}" rel="stylesheet" />--}}
 @stack('css')

@@ -52,8 +52,12 @@
                                     <label for="email">Your Email</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1"><span class="fas fa-envelope"></span></span>
-                                        <input type="email" class="form-control" placeholder="example@company.com" id="email" autofocus required name="email">
+                                        <input type="email" class="form-control" placeholder="example@company.com" id="email" autofocus  name="email">
                                     </div>
+                                    <span style="color: crimson">@error('email'){{ $message }}  @enderror</span><br>
+                                    @if (session('emailerror'))
+                                        <span style="color: crimson">Email not found</span><br>
+                                    @endif
                                 </div>
                                 <!-- End of Form -->
                                 <div class="form-group">
@@ -62,9 +66,13 @@
                                         <label for="password">Your Password</label>
                                         <div class="input-group">
                                             <span class="input-group-text" id="basic-addon2"><span class="fas fa-unlock-alt"></span></span>
-                                            <input type="password" placeholder="Password" class="form-control" id="password" required name="password">
+                                            <input type="password" placeholder="Password" class="form-control" id="password"  name="password">
                                         </div>
                                     </div>
+                                    <span style="color: crimson">@error('password'){{ $message }}  @enderror</span><br>
+                                    @if (session('passerror'))
+                                        <span style="color: crimson">Password not found</span><br>
+                                @endif
                                     <!-- End of Form -->
                                     <div class="d-flex justify-content-between align-items-center mb-4">
                                         {{-- <div class="form-check">

@@ -35,28 +35,13 @@ Route::get('/user-register', [UIcontroller::class, 'register'])->name('user_regi
 Route::post('/user-register-post', [UIcontroller::class, 'register_post'])->name('user_register_post');
 Route::get('/password-reset', [UIcontroller::class, 'password_reset'])->name('user_pass_reset');
 Route::post('/competition', [UIcontroller::class, 'competition'])->name('competition');
+Route::post('/comp_ajax', [UIcontroller::class, 'comp_ajax'])->name('comp_ajax');
 Route::get('/user-logout', [UIcontroller::class, 'user_logout'])->name('user_logout');
 Route::get('/iframe', [UIcontroller::class, 'iframe'])->name('iframe');
 Route::get('/redeem-code', [UIcontroller::class, 'redeem_code'])->name('ui_redeem_code');
 Route::post('/redeem-code-post', [UIcontroller::class, 'redeem_code_post'])->name('redeem_code_post');
 
-//square
-Route::get('/square-page', [AdminSquarePaymentController::class, 'square_page'])->name('square_page');
-Route::post('/add-card', [AdminSquarePaymentController::class, 'addCard'])->name('add-card');
 
-
-//Route::get('/', function () {
-//    return view('welcome');
-//});
-//Route::post('/add-card', 'AdminSquarePaymentController@addCard')->name('add-card');
-
-// Video link
-// https://www.youtube.com/watch?v=CoK2XRdC9cQ&ab_channel=ExpertRohila
-
-//for paypal
-Route::post('/charge', [CheckoutController::class,'charge'])->name('charge');
-Route::get('/success', [CheckoutController::class,'success'])->name('success');
-Route::get('/error', [CheckoutController::class,'error'])->name('error');
 
 
 Route::group(['middleware'=>['usermiddleware']], function(){
@@ -64,20 +49,22 @@ Route::group(['middleware'=>['usermiddleware']], function(){
     Route::post('/stripe-events', [UIcontroller::class, 'stripe_events'])->name('stripe.post');
     Route::get('/user-myredeem', [UIcontroller::class, 'myredeem'])->name('user_myredeem');
     Route::get('/payment-method', [UIcontroller::class, 'payment_method'])->name('payment_method');
-
     Route::get('/user-profile', [UIcontroller::class, 'user_profile'])->name('user_profile');
     Route::post('/user-profile-post', [UIcontroller::class, 'user_profile_post'])->name('user_profile_post');
-//Route::get('/reset-password', [UIcontroller::class, 'reset_password'])->name('reset_password');
     Route::post('/reset-password-post', [UIcontroller::class, 'reset_password_post'])->name('reset_password_post');
+    //square
+    Route::get('/square-page', [AdminSquarePaymentController::class, 'square_page'])->name('square_page');
+    Route::post('/add-card', [AdminSquarePaymentController::class, 'addCard'])->name('add-card');
+//for paypal
+    Route::post('/charge', [CheckoutController::class,'charge'])->name('charge');
+    Route::get('/success', [CheckoutController::class,'success'])->name('success');
+    Route::get('/error', [CheckoutController::class,'error'])->name('error');
 });
-//stripe
-
-
-
 
 /*---------------------------------------Admin-Routes---------------------------------------------- */
 /**Auth Routes */
     Route::get('/admin-login', [AdminAuthController::class, 'login'])->name('admin_login');
+
     Route::post('/admin/login-data', [AdminAuthController::class, 'login_data'])->name('login_data_page');
     Route::get('/admin/logout', [AdminAuthController::class, 'logout'])->name('admin_logout');
 
@@ -117,13 +104,9 @@ Route::group(['middleware'=>['protectedPage']], function(){
         Route::get('/admin/Competition-edit/{id?}', [AdminCompetitionController::class, 'Competition_edit'])->name('admin_Competition_edit');
         Route::get('/admin/Competition-delete/{Competition?}', [AdminCompetitionController::class, 'Competition_delete'])->name('admin_Competition_delete');
         Route::post('/admin/Competition-add-edit/{Competition?}', [AdminCompetitionController::class, 'Competition_add_edit_data'])->name('admin_Competition_add_edit');
-    /**Testimonials Routes */
-        Route::get('/admin/order', [AdminTestimonialsController::class, 'order'])->name('order');
-        Route::get('/admin/testimonial-add', [AdminTestimonialsController::class, 'testimonial_add'])->name('admin_testimonials_add');
-        Route::get('/admin/testimonial-edit/{id?}', [AdminTestimonialsController::class, 'testimonial_edit'])->name('admin_testimonials_edit');
-        Route::get('/admin/testimonial-delete/{testimonial?}', [AdminTestimonialsController::class, 'testimonial_delete'])->name('admin_testimonials_delete');
-        Route::post('/admin/testimonial-add-edit/{testimonial?}', [AdminTestimonialsController::class, 'testimonial_add_edit_data'])->name('admin_testimonials_add_edit');
-
+    /**order Routes */
+    Route::get('/admin/order', [AdminTestimonialsController::class, 'order'])->name('order');
+    Route::post('/admin/order-filter', [AdminTestimonialsController::class, 'order_filter'])->name('order_filter');
 
 });
 

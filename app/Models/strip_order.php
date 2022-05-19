@@ -13,4 +13,8 @@ class strip_order extends Model
     {
         return $this->hasOne(User::class,'id','user_id');
     }
+    public function order_with_comp()
+    {
+        return $this->hasOne(CompetitionModel::class,'id','competition_name');
+    }
 }
