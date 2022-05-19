@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 19, 2022 at 04:48 PM
+-- Generation Time: May 19, 2022 at 08:37 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -43,13 +43,8 @@ CREATE TABLE `competitions` (
 --
 
 INSERT INTO `competitions` (`id`, `title`, `competition_date`, `amount`, `status`, `url`, `created_at`, `updated_at`) VALUES
-(4, 'Qui facere ut itaque', '2022-05-20', 10, 1, 'https://www.youtube.com/embed/RLtwC2hDW8c', '2022-05-11 09:07:42', '2022-05-17 13:34:16'),
-(5, 'Dolorem totam conseq', '2022-05-19', 10, 1, 'https://www.youtube.com/embed/Z9Rs9ZFcZeM', '2022-05-11 10:22:43', '2022-05-17 13:34:32'),
-(7, 'Voluptatem et ipsum', '2022-05-23', 10, 1, 'https://www.youtube.com/embed/b7FNvq11CEw', '2022-05-11 10:22:52', '2022-05-17 13:34:46'),
-(10, 'Voluptatibus non par', '2022-05-25', 10, 1, 'https://www.youtube.com/embed/TCdHr5KQ780', '2022-05-16 11:45:01', '2022-05-17 13:34:55'),
-(12, 'Veniam eaque ipsa', '1979-10-29', 10, 1, NULL, '2022-05-19 06:43:51', '2022-05-19 06:43:51'),
-(13, 'tghfdgdfg', '2022-05-26', 15, 1, NULL, '2022-05-19 07:22:57', '2022-05-19 07:36:06'),
-(14, 'Alpha', '2022-05-27', 20, 1, NULL, '2022-05-19 08:37:07', '2022-05-19 08:37:07');
+(4, 'Qui facere ut itaque', '2022-05-20', 8, 1, 'https://www.youtube.com/embed/RLtwC2hDW8c', '2022-05-11 09:07:42', '2022-05-19 12:16:08'),
+(5, 'Dolorem totam conseq', '2022-05-19', 10, 1, 'https://www.youtube.com/embed/Z9Rs9ZFcZeM', '2022-05-11 10:22:43', '2022-05-19 12:00:13');
 
 -- --------------------------------------------------------
 
@@ -78,7 +73,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `competition_name`, `competition_date`, `user_id`, `price`, `payer_id`, `status`, `redeem_code`, `receipt_url`, `payment_method`, `url`, `created_at`, `updated_at`) VALUES
-(50, '10', '2022-05-25', '20', '10', 'ch_3L19pNFo3JNYSfwX1l8AJxOP', 'succeeded', '202205191652968547126801', 'https://pay.stripe.com/receipts/acct_1KnhCEFo3JNYSfwX/ch_3L19pNFo3JNYSfwX1l8AJxOP/rcpt_Lib1C2OVLhY25xBf5DLEZybD3NhmTm8', 'stripe', 'https://www.youtube.com/embed/TCdHr5KQ780', '2022-05-19 08:55:47', '2022-05-19 08:55:47');
+(64, '15', '2022-05-19', '74', '55', 'PAYID-MKDIE3Y04497521CF831815Y', 'approved', '202205191652982399643776', NULL, 'paypal', 'https://www.youtube.com/embed/b7FNvq11CEw', '2022-05-19 12:46:39', '2022-05-19 12:46:39');
 
 -- --------------------------------------------------------
 
@@ -105,7 +100,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `email`, `provider_id`, `avatar`, `password`, `user_role`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin@mail.com', NULL, NULL, '$2y$10$eBzm3cEsbRSf2djUAs1P2eyT.yQlWP3XJQb737CalCQoTsdTbRvja', 1, 1, '2021-06-16 21:48:41', '2021-09-13 15:12:37'),
-(20, 'saad', 'saad@gmail.com', NULL, NULL, 'saad12345', 0, 0, '2022-05-12 09:51:49', '2022-05-12 09:51:49');
+(75, 'fugefivyde', 'lizex@mailinator.com', NULL, NULL, '$2y$10$1AJz3EoOE.jjo6XNSAk.6.C62n5Ak.10vyO2V7GQc/Qc.l6VUQCwK', 0, 0, '2022-05-19 12:58:52', '2022-05-19 12:58:52');
 
 --
 -- Indexes for dumped tables
@@ -137,19 +132,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `competitions`
 --
 ALTER TABLE `competitions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

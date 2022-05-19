@@ -3,12 +3,13 @@
     <!-- main -->
     <main>
         <section>
-{{--            @dd($data->url)--}}
+{{--            @dd($session=session()->get('redeem'))--}}
+{{--            {{$session=session()->get('redeem')}}--}}
             <div class="container">
                 <div class="row">
                     <iframe class="ifram-redeem"
 
-                        src="{{$data->url}}"
+                        src="{{session()->get('redeem')['url']}}"
                         title="YouTube video player" frameborder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                         allowfullscreen></iframe>

@@ -6,7 +6,7 @@ use App\Models\BannerModel;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\strip_order;
+use App\Models\ordersModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,41 +15,7 @@ class AdminBannerController extends Controller
 {
     function dashboard()
     {
-//        $data = [];
-//        $price_data=[];
-
-// Circle trough all 12 months
-//        for ($month = 1; $month <= 12; $month++) {
-//            // Create a Carbon object from the current year and the current month (equals 2019-01-01 00:00:00)
-//            $date = Carbon::create(date('Y'), $month);
-//            // Make a copy of the start date and move to the end of the month (e.g. 2019-01-31 23:59:59)
-//            $date_end = $date->copy()->endOfMonth();
-//
-//            $transaksi = strip_order::where('created_at', '>=', $date)
-//                // the creation date must be between the start of the month and the end of the month
-//
-//                ->where('created_at', '<=', $date_end)
-//                // ->Where('status','!=','Menunggu')
-//
-//                ->count();
-//            // Save the count of transactions for the current month in the output array
-//            $data[$month] = $transaksi;
-//            $price=strip_order::where('created_at', '>=', $date)
-//                ->where('created_at', '<=', $date_end)
-//                ->sum('price');
-//            $price_data[$month]=$price;
-//        }
-//        dd($price_data);
-//        dd($data);
-
-
-
-
-
-
-
-
-        $yearlyMemberships = strip_order::select(
+        $yearlyMemberships = ordersModel::select(
             DB::raw("year(created_at) as year"),
             DB::raw("month(created_at) as month"),
             DB::raw("SUM(price) as price"),

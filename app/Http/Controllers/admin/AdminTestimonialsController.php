@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
-use App\Models\strip_order;
+use App\Models\OrdersModel;
 
 use Illuminate\Http\Request;
 
@@ -10,7 +10,7 @@ class AdminTestimonialsController extends Controller
 {
     function order()
     {
-        $order = strip_order ::with('order_with_user')->get();
+        $order = ordersModel ::with('order_with_user')->get();
         // dd($order);
         return view('admin.orders.order-list',compact('order'));
     }
@@ -20,15 +20,15 @@ class AdminTestimonialsController extends Controller
     }
     function testimonial_edit($id)
     {
-        $testimonial = strip_order ::where('id',$id)->first();
+        $testimonial = ordersModel ::where('id',$id)->first();
         return view('admin.testimonials.testimonials-edit',compact('testimonial'));
     }
-    function testimonial_delete(strip_order $testimonial)
+    function testimonial_delete(ordersModel $testimonial)
     {
         $testimonial->delete();
         return back()->with('delete','Deleted Successfully');
     }
-    function testimonial_add_edit_data(Request $request,strip_order $testimonial)
+    function testimonial_add_edit_data(Request $request, ordersModel $testimonial)
     {
         $create = 1;
         (isset($testimonial->id) and $testimonial->id>0)?$create=0:$create=1;
@@ -54,9 +54,10 @@ class AdminTestimonialsController extends Controller
     }
     function order_filter(Request $request)
     {
-        $order = strip_order ::where('created_at','>=',$request->start_date)
+//        dd($request);
+        $order = OrdersModel::where('created_at','>=',$request->start_date)
             ->where('created_at','<=',$request->and_date,)->get();
-        $price = strip_order ::where('created_at','>=',$request->start_date)
+        $price = OrdersModel::where('created_at','>=',$request->start_date)
             ->where('created_at','<=',$request->and_date,)->sum('price');
 //        dd($order);
         return view('admin.orders.order-list-filter',compact('order','price'));

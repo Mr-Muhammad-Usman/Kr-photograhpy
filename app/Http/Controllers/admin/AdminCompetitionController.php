@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\CompetitionModel;
-use App\Models\strip_order;
+use App\Models\ordersModel;
 use Illuminate\Http\Request;
 
 class AdminCompetitionController extends Controller
@@ -25,7 +25,7 @@ class AdminCompetitionController extends Controller
     function Competition_delete(CompetitionModel $Competition)
     {
         // dd($Competition->title);
-        $check=strip_order::where('competition_name',$Competition->title)->first();
+        $check=ordersModel::where('competition_name',$Competition->title)->first();
         if($check)
         {
             // dd('Can not Delet');

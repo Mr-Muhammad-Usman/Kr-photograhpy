@@ -18,14 +18,14 @@
                         <h3>Square  </h3>
                     </a>
                 </div>
-                <div class="col-xs-12 col-sm-4 col-md-4">
-                    <a href="{{ route('stripe_form') }}" class="">
-                        <div class="payment_div">
-                            <img src="images/p2.png" class="img-fluid" alt="">
-                        </div>
-                        <h3>Stripe  </h3>
-                    </a>
-                </div>
+{{--                <div class="col-xs-12 col-sm-4 col-md-4">--}}
+{{--                    <a href="{{ route('stripe_form') }}" class="">--}}
+{{--                        <div class="payment_div">--}}
+{{--                            <img src="images/p2.png" class="img-fluid" alt="">--}}
+{{--                        </div>--}}
+{{--                        <h3>Stripe  </h3>--}}
+{{--                    </a>--}}
+{{--                </div>--}}
                 <div class="col-xs-12 col-sm-4 col-md-4">
                     <div class="payment_div">
                                                <img src="images/p3.png" class="img-fluid" alt="">

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Hash;
 use Stripe;
 use App\Models\CompetitionModel;
-use App\Models\strip_order;
+use App\Models\ordersModel;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
@@ -21,14 +22,13 @@ class UIcontroller extends Controller
         return view('index', compact('competition'));
     }
 
-
     public function password_reset()
     {
         return view('password-reset');
     }
     public function myredeem()
     {
-        $data = strip_order::with('order_with_comp')->where('user_id', Auth::user()->id)->get();
+        $data = ordersModel::with('order_with_comp')->where('user_id', Auth::user()->id)->get();
 //        dd($data);
         return view('myredeem', compact('data'));
     }
@@ -41,12 +41,13 @@ class UIcontroller extends Controller
         // dd($request);
         $request->validate([
             'Email' => 'required',
-            'Pass' => 'min:6|required',
+            'Pass' => 'min:8|required',
         ]);
         $emails = User::where('email', $request->Email)->where('user_role', 0)->first();
-        $password = User::where('password', $request->Pass)->where('user_role', 0)->first();
+//        $password = User::where('password',Hash::check($request->pass))->where('user_role', 0)->first();
+//        $chek=
         if ($emails) {
-            if ($password) {
+            if (Hash::check($request->pass,$emails->password)) {
                 // dd(session()->get('competition'));
                 Auth::login($emails);
                 if (session()->has('competition')) {
@@ -75,13 +76,14 @@ class UIcontroller extends Controller
         $request->validate([
             'Username' => 'required|min:3|max:15|alpha',
             'Email' => 'required',
-            'Pass' => 'min:6|required_with:con_Pass|same:con_Pass',
-            'con_Pass' => 'required|min:8|max:15',
+            'Pass' => 'min:8|required_with:con_Pass|same:con_Pass',
+            'con_Pass' => 'required|min:8',
         ]);
         $user = new User;
         $user->username = $request->Username;
         $user->email = $request->Email;
-        $user->password = $request->Pass;
+        $hashed = Hash::make($request->pass);
+        $user->password =$hashed;
         $user->user_role = 0;
         $user->save();
         Auth::login($user);
@@ -154,10 +156,10 @@ class UIcontroller extends Controller
         if ($stripe->status === "succeeded") {
             $redeem_code = date('Ymd').time().rand(111111,999999);
             $session=session()->get('competition');
-            $orders = new strip_order;
+            $orders = new ordersModel;
             $orders->payer_id = $stripe->id;
             $orders->user_id = Auth::user()->id;
-            $orders->price = 10;
+            $orders->price = $session['amount'] ;
             $orders->status = $stripe->status;
             $orders->redeem_code = $redeem_code;
             $orders->receipt_url = $stripe->receipt_url;
@@ -165,7 +167,6 @@ class UIcontroller extends Controller
             $orders->competition_date = $session['date'] ;
             $orders->url = $session['url'] ;
             $orders->payment_method = 'stripe';
-
             $orders->save();
 
             // session()->put('redeem_code', $redeem_code);
@@ -186,10 +187,7 @@ class UIcontroller extends Controller
     {
         if(session('redeem'))
         {
-            $session=session()->get('redeem');
-            $data=CompetitionModel::where('id',$session[1])->first();
-//            dd($data->url);
-            return view('iframe',compact('data'));
+            return view('iframe');
         }else
         {
             return redirect()->route('ui_redeem_code');
@@ -208,18 +206,16 @@ class UIcontroller extends Controller
             'redeem_code' => 'required|min:24',
         ]);
         $date = Carbon::now();
-        $redeem=strip_order::where('redeem_code',$request->redeem_code)
-            ->where('created_at',$date->format('Y-m-d'))
-            ->first();
-
-//        dd($redeem);
-
+        $redeem=ordersModel::where('redeem_code',$request->redeem_code)->first();
         if($redeem)
         {
-            $redeem_date=strip_order::where('created_at',$date->format('Y-m-d'))->first();
+            $redeem_date=ordersModel::where('competition_date',$date->format('Y-m-d'))
+                ->where('redeem_code',$request->redeem_code)
+                ->first();
+//            dd($redeem_date);
             if ($redeem_date)
             {
-                session()->put('redeem',[$redeem->redeem_code,$redeem->url]);
+                session()->put('redeem',['code'=>$redeem->redeem_code,'url'=>$redeem->url]);
                 return redirect()->route('iframe');
             }
             else

@@ -12,7 +12,7 @@ use Stripe;
 use Session;
 use Omnipay\Omnipay;
 use Illuminate\Http\Request;
-use App\Models\strip_order;
+use App\Models\ordersModel;
 
 class CheckoutController extends Controller
 {
@@ -85,7 +85,7 @@ class CheckoutController extends Controller
 
 
                 $response = $this->gateway->purchase(array(
-                    'amount' => $request->input('amount'),
+                    'amount' => session()->get('competition')['amount'],
                     'currency' => env('PAYPAL_CURRENCY'),
                     'returnUrl' => url('success'),
                     'cancelUrl' => url('error'),
@@ -123,21 +123,19 @@ class CheckoutController extends Controller
 //dd($arr_body);
                 // Insert transaction data into the database
 
-                    $redeem_code = date('Ymd').time().rand(111111,999999);
-                $comp_name=session()->get('competition')[0];
-                $comp_date=session()->get('competition')[1];
-                $comp_id=CompetitionModel::where('title',$comp_name)->first();
-                    $orders = new strip_order;
-                    $orders->payer_id = $arr_body['id'];
-                    $orders->user_id = Auth::user()->id;
-                    $orders->price = 10;
-                    $orders->status = $arr_body['state'];
-                    $orders->redeem_code = $redeem_code;
-                    $orders->payment_method = $arr_body['payer']['payment_method'];
-                $orders->competition_name =$comp_name ;
-                $orders->competition_date = $comp_date;
-                $orders->url = $comp_id->id;
-                    $orders->save();
+                $redeem_code = date('Ymd').time().rand(111111,999999);
+                $session=session()->get('competition');
+                $orders = new ordersModel;
+                $orders->payer_id = $arr_body['id'];
+                $orders->user_id = Auth::user()->id;
+                $orders->price = $session['amount'] ;
+                $orders->status = $arr_body['state'];
+                $orders->redeem_code = $redeem_code;
+                $orders->payment_method = $arr_body['payer']['payment_method'];
+                $orders->competition_name =$session['id'] ;
+                $orders->competition_date = $session['date'] ;
+                $orders->url = $session['url'] ;
+                $orders->save();
 
                     // session()->put('redeem_code', $redeem_code);
 
