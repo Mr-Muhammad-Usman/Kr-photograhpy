@@ -167,12 +167,17 @@ class UIcontroller extends Controller
             $orders->competition_date = $session['date'] ;
             $orders->url = $session['url'] ;
             $orders->payment_method = 'stripe';
+            $comp_name=CompetitionModel::where('id',$session['id'])->first();
+            session()->put('sendEmail', [
+                'user_id'=>Auth::user()->id,
+                'redeem_code'=>$redeem_code,
+                'amount'=>$session['amount'],
+                'comp_date'=>$session['date'],
+                'comp_name'=>$comp_name->title,
+                ]);
             $orders->save();
-
-            // session()->put('redeem_code', $redeem_code);
-
             session()->forget('competition');
-            return redirect(route('user_myredeem'))->with('added', 'Thank you for purchasing...');
+            return redirect(route('mail_post'));
         } else {
             return back()->with('failed', 'Payment Failed');
         }
@@ -281,5 +286,21 @@ class UIcontroller extends Controller
             'status' => 1,
             'data' => $comp_data->competition_date,
         ]);
+    }
+    public function mail_post()
+    {
+        $request=session()->get('sendEmail');
+        $user=User::where('id',$request['user_id'])->first();
+//        dd($user->email);
+
+//        dd(session()->get('sendEmail'));
+        $details = [
+            'title' => 'Redeem Code :'.$request['redeem_code'],
+            'body' => 'Amount is :'.$request['amount'],
+        ];
+
+        \Mail::to($user->email)->send(new \App\Mail\MyTestMail($details));
+//dd('Mail send');
+        return redirect(route('user_myredeem'))->with('added', 'Thank you for purchasing...');
     }
 }

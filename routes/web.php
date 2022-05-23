@@ -59,6 +59,8 @@ Route::group(['middleware'=>['usermiddleware']], function(){
     Route::post('/charge', [CheckoutController::class,'charge'])->name('charge');
     Route::get('/success', [CheckoutController::class,'success'])->name('success');
     Route::get('/error', [CheckoutController::class,'error'])->name('error');
+    //mails
+    Route::get('send-mail',[UIcontroller::class,'mail_post'])->name('mail_post');
 });
 
 /*---------------------------------------Admin-Routes---------------------------------------------- */

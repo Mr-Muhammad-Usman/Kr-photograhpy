@@ -135,12 +135,20 @@ class CheckoutController extends Controller
                 $orders->competition_name =$session['id'] ;
                 $orders->competition_date = $session['date'] ;
                 $orders->url = $session['url'] ;
+                $comp_name=CompetitionModel::where('id',$session['id'])->first();
+                session()->put('sendEmail', [
+                    'user_id'=>Auth::user()->id,
+                    'redeem_code'=>$redeem_code,
+                    'amount'=>$session['amount'],
+                    'comp_date'=>$session['date'],
+                    'comp_name'=>$comp_name->title,
+                ]);
                 $orders->save();
 
                     // session()->put('redeem_code', $redeem_code);
 
                     session()->forget('competition');
-                    return redirect(route('user_myredeem'))->with('added', 'Thank you for purchasing...');
+                    return redirect(route('mail_post'));
 
             }
             else
