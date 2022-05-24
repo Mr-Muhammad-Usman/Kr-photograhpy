@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coupon_detailModel;
+use App\Models\CouponModel;
 use Illuminate\Support\Facades\Hash;
 use Stripe;
 use App\Models\CompetitionModel;
@@ -152,35 +154,37 @@ class UIcontroller extends Controller
 
 
         // dd($request->all());
-        $stripe = $this->stripe_payment($request->email, $request->stripeToken, 10, 'Competition RedeemCode Payment');
-        if ($stripe->status === "succeeded") {
-            $redeem_code = date('Ymd').time().rand(111111,999999);
-            $session=session()->get('competition');
-            $orders = new ordersModel;
-            $orders->payer_id = $stripe->id;
-            $orders->user_id = Auth::user()->id;
-            $orders->price = $session['amount'] ;
-            $orders->status = $stripe->status;
-            $orders->redeem_code = $redeem_code;
-            $orders->receipt_url = $stripe->receipt_url;
-            $orders->competition_name =$session['id'] ;
-            $orders->competition_date = $session['date'] ;
-            $orders->url = $session['url'] ;
-            $orders->payment_method = 'stripe';
-            $comp_name=CompetitionModel::where('id',$session['id'])->first();
-            session()->put('sendEmail', [
-                'user_id'=>Auth::user()->id,
-                'redeem_code'=>$redeem_code,
-                'amount'=>$session['amount'],
-                'comp_date'=>$session['date'],
-                'comp_name'=>$comp_name->title,
-                ]);
-            $orders->save();
-            session()->forget('competition');
-            return redirect(route('mail_post'));
-        } else {
-            return back()->with('failed', 'Payment Failed');
-        }
+//        $stripe = $this->stripe_payment($request->email, $request->stripeToken, 10, 'Competition RedeemCode Payment');
+//        if ($stripe->status === "succeeded") {
+//            $redeem_code = date('Ymd').time().rand(111111,999999);
+//            $session=session()->get('competition');
+//            $orders = new ordersModel;
+//            $orders->payer_id = $stripe->id;
+//            $orders->user_id = Auth::user()->id;
+//            $orders->price = $session['amount'] ;
+//            $orders->status = $stripe->status;
+//            $orders->redeem_code = $redeem_code;
+//            $orders->receipt_url = $stripe->receipt_url;
+//            $orders->competition_name =$session['id'] ;
+//            $orders->competition_date = $session['date'] ;
+//            $orders->url = $session['url'] ;
+//            $orders->payment_method = 'stripe';
+//            $comp_name=CompetitionModel::where('id',$session['id'])->first();
+//            session()->put('sendEmail', [
+//                'user_id'=>Auth::user()->id,
+//                'redeem_code'=>$redeem_code,
+//                'amount'=>$session['amount'],
+//                'comp_date'=>$session['date'],
+//                'comp_name'=>$comp_name->title,
+//                ]);
+//
+//            $orders->save();
+//
+//            session()->forget('competition');
+//            return redirect(route('mail_post'));
+//        } else {
+//            return back()->with('failed', 'Payment Failed');
+//        }
     }
     public function user_logout()
     {
@@ -302,5 +306,65 @@ class UIcontroller extends Controller
         \Mail::to($user->email)->send(new \App\Mail\MyTestMail($details));
 //dd('Mail send');
         return redirect(route('user_myredeem'))->with('added', 'Thank you for purchasing...');
+    }
+    public function Coupon_discount(Request $request)
+    {
+        $request->validate([
+            'code'=>'required',
+        ]);
+//        dd(Coupon_detailModel::first());
+        $code=CouponModel::where('code',$request->code)
+            ->where('status',1)
+            ->where('quantity','>',0)
+            ->first();
+        if ($code)
+        {
+            $check=Coupon_detailModel::where('user_id',Auth::user()->id)
+                ->where('coupon_id',$code->id)
+                ->first();
+            if (!$check)
+            {
+//                dd(session()->get('competition'));
+                if (!isset(session()->get('competition')['code']))
+                {
+                    $competition=session()->get('competition');
+                    $competition['code']=$code->code;
+                    $convert=$code->discount/100;
+                    $multiply=$convert * $competition['amount'];
+                    $dis_price=$competition['amount'] - $multiply;
+                    $competition['amount']=$dis_price;
+                    $competition['discount']=$code->discount;
+                    $competition['coupon_id']=$code->id;
+                    session()->put('competition',$competition);
+                    return back()->with('added', 'Coupon Added...');
+                }
+                else
+                {
+                    return back()->with('failed', 'Sorry coupon can not use...');
+                }
+
+            }
+            else
+            {
+                return back()->with('failed', 'You can use this code only one time...');
+            }
+        }
+        else
+        {
+            return back()->with('failed', 'Invalid code...');
+        }
+
+    }
+    public function remove_coupon()
+    {
+        $session=session()->get('competition');
+        $code=CompetitionModel::where('id',$session['id'])->first();
+        $session['amount']=$code->amount;
+        unset($session['code']);
+        unset($session['discount']);
+        unset($session['coupon_id']);
+        session()->put('competition',$session);
+        return back()->with('failed', 'Coupon remove...');
+//        dd(session()->has('competition')['code']);
     }
 }

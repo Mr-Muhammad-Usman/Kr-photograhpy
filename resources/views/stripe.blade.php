@@ -92,16 +92,8 @@
                                                 <td>{{ session()->get('competition')['date'] }}</td>
                                                 <td >${{ session()->get('competition')['amount'] }} </td>
                                             </tr>
-                                            {{-- <tr>
-                                <th>Shipment Charges</th>
-                                <td></td>
-                                <td></td>
-                                <td scope="row">$100</td>
-                            </tr> --}}
-
                                         </tbody>
                                     </table>
-                                    {{-- <small>total <span> $1800</span></small> --}}
                                 </div>
                             </div>
                         </div>

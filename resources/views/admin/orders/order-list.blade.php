@@ -61,6 +61,7 @@
                     <tbody>
                     <!-- Item -->
                     <!-- Start of Item -->
+{{--                    @dd($order)--}}
                     @foreach($order as $key=>$value)
                         <tr>
                             <td class="border-0"><a href="#" class="text-primary font-weight-bold">{{$key+1}}</a> </td>

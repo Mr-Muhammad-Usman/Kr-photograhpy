@@ -68,12 +68,12 @@ function active($current_page){
                 <span>Users</span>
             </a>
         </li>
-{{--          <li class="nav-item {{ active('user-list') . active('user-add') . active('user-edit') }}">--}}
-{{--              <a href="{{route('order_report')}}" class="nav-link">--}}
-{{--                  <span class="sidebar-icon"><span class="fas fa-users"></span></span>--}}
-{{--                  <span>Order Report</span>--}}
-{{--              </a>--}}
-{{--          </li>--}}
+          <li class="nav-item {{ active('user-list') . active('user-add') . active('user-edit') }}">
+              <a href="{{route('admin_Coupon')}}" class="nav-link">
+                  <span class="sidebar-icon"><span class="fas fa-users"></span></span>
+                  <span>Coupan</span>
+              </a>
+          </li>
 
         <li role="separator" class="dropdown-divider mt-4 mb-3 border-black"></li>
 

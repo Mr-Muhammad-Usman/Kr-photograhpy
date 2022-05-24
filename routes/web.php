@@ -4,9 +4,8 @@ use App\Http\Controllers\admin\AdminAuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\admin\AdminBannerController;
 use App\Http\Controllers\admin\AdminCompetitionController;
+use App\Http\Controllers\admin\AdminCouponController;
 use App\Http\Controllers\admin\AdminTestimonialsController;
-use App\Http\Controllers\admin\AdminServicesController;
-use App\Http\Controllers\admin\AdminProductDetailsController;
 use App\Http\Controllers\UIcontroller;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminSquarePaymentController;
@@ -52,9 +51,14 @@ Route::group(['middleware'=>['usermiddleware']], function(){
     Route::get('/user-profile', [UIcontroller::class, 'user_profile'])->name('user_profile');
     Route::post('/user-profile-post', [UIcontroller::class, 'user_profile_post'])->name('user_profile_post');
     Route::post('/reset-password-post', [UIcontroller::class, 'reset_password_post'])->name('reset_password_post');
+    Route::post('/Coupon-discount', [UIcontroller::class, 'Coupon_discount'])->name('Coupon_discount');
+    Route::get('/remove-coupon', [UIcontroller::class, 'remove_coupon'])->name('remove_coupon');
+
     //square
     Route::get('/square-page', [AdminSquarePaymentController::class, 'square_page'])->name('square_page');
     Route::post('/add-card', [AdminSquarePaymentController::class, 'addCard'])->name('add-card');
+
+
 //for paypal
     Route::post('/charge', [CheckoutController::class,'charge'])->name('charge');
     Route::get('/success', [CheckoutController::class,'success'])->name('success');
@@ -106,6 +110,14 @@ Route::group(['middleware'=>['protectedPage']], function(){
         Route::get('/admin/Competition-edit/{id?}', [AdminCompetitionController::class, 'Competition_edit'])->name('admin_Competition_edit');
         Route::get('/admin/Competition-delete/{Competition?}', [AdminCompetitionController::class, 'Competition_delete'])->name('admin_Competition_delete');
         Route::post('/admin/Competition-add-edit/{Competition?}', [AdminCompetitionController::class, 'Competition_add_edit_data'])->name('admin_Competition_add_edit');
+
+
+    /**Coupon Routes */
+    Route::get('/admin/Coupon-list', [AdminCouponController::class, 'Coupon_list'])->name('admin_Coupon');
+    Route::get('/admin/Coupon-add', [AdminCouponController::class, 'Coupon_add'])->name('admin_Coupon_add');
+    Route::get('/admin/Coupon-edit/{id?}', [AdminCouponController::class, 'Coupon_edit'])->name('admin_Coupon_edit');
+    Route::get('/admin/Coupon-delete/{Coupon?}', [AdminCouponController::class, 'Coupon_delete'])->name('admin_Coupon_delete');
+    Route::post('/admin/Coupon-add-edit/{Coupon?}', [AdminCouponController::class, 'Coupon_add_edit_data'])->name('admin_Coupon_add_edit');
     /**order Routes */
     Route::get('/admin/order', [AdminTestimonialsController::class, 'order'])->name('order');
     Route::post('/admin/order-filter', [AdminTestimonialsController::class, 'order_filter'])->name('order_filter');

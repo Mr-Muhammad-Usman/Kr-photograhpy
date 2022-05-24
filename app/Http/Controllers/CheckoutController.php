@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 // use Illuminate\Contracts\Session\Session as SessionSession;
 
 use App\Models\CompetitionModel;
+use App\Models\Coupon_detailModel;
+use App\Models\CouponModel;
 use App\Models\Payment;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
@@ -143,6 +145,16 @@ class CheckoutController extends Controller
                     'comp_date'=>$session['date'],
                     'comp_name'=>$comp_name->title,
                 ]);
+
+                $coupon= new Coupon_detailModel;
+                $coupon->user_id=Auth::user()->id;
+                $coupon->coupon_id=$session['coupon_id'];
+
+
+                $subtract=CouponModel::where('id',$session['coupon_id'])->first();
+                $subtract->quantity -= 1;
+                $subtract->save();
+                $coupon->save();
                 $orders->save();
 
                     // session()->put('redeem_code', $redeem_code);
