@@ -673,7 +673,7 @@ h1 {}
 }
 
 .RegisterSec input {
-    margin: 0 0 20px;
+    margin: 0;
 }
 
 .payment_div button {
@@ -1064,3 +1064,13 @@ li.my_dorp .dropdown:hover .dropdown-content {
     padding: 2% 0 2% 0;
 }
 
+.fom_2 button {
+    margin: 0 0 0px 0px;
+    background: green;
+    border: 1px solid green;
+
+}
+.fom_2 button:hover {
+    background: green;
+    border: 1px solid green;
+}

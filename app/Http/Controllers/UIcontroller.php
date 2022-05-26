@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Coupon_detailModel;
 use App\Models\CouponModel;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Stripe;
 use App\Models\CompetitionModel;
@@ -309,13 +310,15 @@ class UIcontroller extends Controller
     }
     public function Coupon_discount(Request $request)
     {
+        $competition=session()->get('competition');
         $request->validate([
             'code'=>'required',
         ]);
-//        dd(Coupon_detailModel::first());
+//        dd($competition);
         $code=CouponModel::where('code',$request->code)
             ->where('status',1)
             ->where('quantity','>',0)
+            ->where('competition_id',$competition['id'])
             ->first();
         if ($code)
         {
@@ -324,24 +327,44 @@ class UIcontroller extends Controller
                 ->first();
             if (!$check)
             {
-//                dd(session()->get('competition'));
-                if (!isset(session()->get('competition')['code']))
+                $disc_check=CouponModel::where('code',$request->code)
+                    ->where('status',1)
+                    ->where('quantity','>',0)
+                    ->where('competition_id',$competition['id'])
+                    ->where('discount',100)
+                    ->first();
+                if ($disc_check)
                 {
-                    $competition=session()->get('competition');
-                    $competition['code']=$code->code;
-                    $convert=$code->discount/100;
-                    $multiply=$convert * $competition['amount'];
-                    $dis_price=$competition['amount'] - $multiply;
-                    $competition['amount']=$dis_price;
-                    $competition['discount']=$code->discount;
-                    $competition['coupon_id']=$code->id;
+                    session()->put('free_coupon','Free Coupon');
+                    $competition['amount']=0;
                     session()->put('competition',$competition);
-                    return back()->with('added', 'Coupon Added...');
+//                    dd(session()->get('free_coupon'));
+                    return back()->with('added', 'Free Coupon Added...');
                 }
                 else
                 {
-                    return back()->with('failed', 'Sorry coupon can not use...');
+                    if (!isset(session()->get('competition')['code']))
+                    {
+
+                        $competition['code']=$code->code;
+                        $convert=$code->discount/100;
+                        $multiply=$convert * $competition['amount'];
+                        $dis_price=$competition['amount'] - $multiply;
+                        $competition['amount']=$dis_price;
+                        $competition['discount']=$code->discount;
+                        $competition['coupon_id']=$code->id;
+                        session()->put('competition',$competition);
+//                    dd($competition);
+                        return back()->with('added', 'Coupon Added...');
+                    }
+                    else
+                    {
+                        return back()->with('failed', 'Sorry coupon can not use...');
+                    }
                 }
+
+
+
 
             }
             else
@@ -364,7 +387,51 @@ class UIcontroller extends Controller
         unset($session['discount']);
         unset($session['coupon_id']);
         session()->put('competition',$session);
+        session()->forget('free_coupon');
         return back()->with('failed', 'Coupon remove...');
 //        dd(session()->has('competition')['code']);
+    }
+    public function free_redeem_code()
+    {
+//        dd('hello');
+        $redeem_code = date('Ymd').time().rand(111111,999999);
+        $session=session()->get('competition');
+        $orders = new ordersModel;
+//        $orders->payer_id = $arr_body['id'];
+        $orders->user_id = Auth::user()->id;
+        $orders->price = 0 ;
+        $orders->status = "free";
+        $orders->redeem_code = $redeem_code;
+        $orders->payment_method = "free coupon";
+        $orders->competition_name =$session['id'] ;
+        $orders->competition_date = $session['date'] ;
+        $orders->url = $session['url'] ;
+        $comp_name=CompetitionModel::where('id',$session['id'])->first();
+        session()->put('sendEmail', [
+            'user_id'=>Auth::user()->id,
+            'redeem_code'=>$redeem_code,
+            'amount'=>$session['amount'],
+            'comp_date'=>$session['date'],
+            'comp_name'=>$comp_name->title,
+        ]);
+
+        if(isset(session()->get('competition')['code']))
+        {
+            $coupon= new Coupon_detailModel;
+            $coupon->user_id=Auth::user()->id;
+            $coupon->coupon_id=$session['coupon_id'];
+            $subtract=CouponModel::where('id',$session['coupon_id'])->first();
+            $subtract->quantity -= 1;
+            $subtract->save();
+            $coupon->save();
+        }
+
+        $orders->save();
+
+        // session()->put('redeem_code', $redeem_code);
+
+        session()->forget('competition');
+        session()->forget('free_coupon');
+        return redirect(route('mail_post'));
     }
 }

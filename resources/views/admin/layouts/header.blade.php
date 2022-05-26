@@ -71,7 +71,7 @@ function active($current_page){
           <li class="nav-item {{ active('user-list') . active('user-add') . active('user-edit') }}">
               <a href="{{route('admin_Coupon')}}" class="nav-link">
                   <span class="sidebar-icon"><span class="fas fa-users"></span></span>
-                  <span>Coupan</span>
+                  <span>Coupon</span>
               </a>
           </li>
 

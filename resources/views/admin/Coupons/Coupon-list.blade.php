@@ -32,6 +32,7 @@
                         <th class="border-0">Code</th>
                         <th class="border-0">Discount</th>
                         <th class="border-0">Quantity</th>
+                        <th class="border-0">Competition</th>
                         <th class="border-0">Status</th>
                         <th class="border-0">Action</th>
                     </tr>
@@ -43,8 +44,9 @@
                         <tr>
                             <td class="border-0"><a href="#" class="text-primary font-weight-bold">{{$key+1}}</a> </td>
                             <td class="border-0 font-weight-bold">{{$value->code}}</td>
-                            <td class="border-0 font-weight-bold">${{$value->discount}}</td>
-                            <td class="border-0 font-weight-bold">${{$value->quantity}}</td>
+                            <td class="border-0 font-weight-bold">{{$value->discount}}%</td>
+                            <td class="border-0 font-weight-bold">{{$value->quantity}}</td>
+                            <td class="border-0 font-weight-bold">{{$value->competition_id}}</td>
                             <td class="border-0 font-weight-bold">
                                 <span class="{{$value->status == 1 ? 'text-success' : 'text-danger'}}">{{$value->status == 1 ? 'Active' : 'Inactive'}}</span>
                             </td>

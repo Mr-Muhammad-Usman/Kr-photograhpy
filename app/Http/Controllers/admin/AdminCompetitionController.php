@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\CompetitionModel;
+use App\Models\CouponModel;
 use App\Models\ordersModel;
 use Illuminate\Http\Request;
 
@@ -33,7 +34,12 @@ class AdminCompetitionController extends Controller
         }
         else
         {
-            // dd('Deleted Successfully');
+//             dd($Competition->id);
+             $coupon=CouponModel::where('competition_id',$Competition->id)->get();
+            echo "<script>";
+            echo "alert('hello');";
+            echo "</script>";
+            dd($coupon);
             $Competition->delete();
             return back()->with('delete','Deleted Successfully');
         }
@@ -45,7 +51,9 @@ class AdminCompetitionController extends Controller
             'title'=>'required',
             'comp_date'=>'required',
             'comp_amount'=>'required',
+
         ]);
+
         $create = 1;
         (isset($Competition->id) and $Competition->id>0)?$create=0:$create=1;
         // if($request->hasFile('images'))

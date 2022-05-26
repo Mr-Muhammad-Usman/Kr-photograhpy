@@ -32,7 +32,7 @@
                         <form action="{{ route('charge') }}" method="post">
                         @csrf
                         <input type="hidden" value="10" name="amount">
-                        <li> <button type="submit">Pay With Paypal</button></li>
+                        <li> <button type="submit" {{ session()->has('free_coupon') ? 'disabled' : ''}} >Pay With Paypal</button></li>
                         </form>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                                 </table>
                             <form action="{{ route('Coupon_discount') }}" method="post">
                                 @csrf
-                                <div class="labelsinside">
+                                <div class="labelsinside fom_input">
                                     <input autocomplete='off'
                                            class='form-control' type='text' name="code"
                                            placeholder="Enter Coupon Code...">
@@ -79,12 +79,18 @@
                                         <span style="color: crimson">This coupon code is use only one time</span><br>
                                     @endif
                                 </div>
-                                <button type="submit" class="btn btn-primary">Add</button>
-{{--                                <input type="hidden" value="{{$data=session()->get('competition')}}" >--}}
 
                                 @if(isset(session()->get('competition')['code']))
                                     <a href="{{route('remove_coupon')}}" class="btn btn-danger">Remove coupon</a>
+                                @elseif(session()->has('free_coupon'))
+                                    <a href="{{route('remove_coupon')}}" class="btn btn-danger">Remove coupon</a>
+                                    <a href="{{route('free_redeem_code')}}" class="btn btn-primary">Get free Redeem code</a>
+                                @else
+                                    <div class="fom_2">
+                                    <button type="submit" class="btn btn-primary">Add Coupon</button>
+                                    </div>
                                 @endif
+
 
                             </form>
                         </div>

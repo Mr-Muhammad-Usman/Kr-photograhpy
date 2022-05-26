@@ -70,7 +70,7 @@
                             <td class="border-0 font-weight-bold">{{$value->order_with_user->email}}</td>
                             <td class="border-0 font-weight-bold">{{$value->competition_name}}</td>
                             <td class="border-0">{{ $value->competition_date }}</td>
-                            <td class="border-0">{{ $value->price }}</td>
+                            <td class="border-0">${{ $value->price }}</td>
                             <td class="border-0">{{ $value->redeem_code }}</td>
                             <td class="border-0">{{ $value->payment_method }}</td>
 {{--                            <td class="border-0"><a href="{{ $value->receipt_url }}" target="_blank">Invoice</a></td>--}}
@@ -84,7 +84,7 @@
                         <td></td>
                         <td></td>
                         <td>Total</td>
-                        <td>{{$price}}</td>
+                        <td>${{$price}}</td>
                         <td></td>
                         <td></td>
                         <td></td>

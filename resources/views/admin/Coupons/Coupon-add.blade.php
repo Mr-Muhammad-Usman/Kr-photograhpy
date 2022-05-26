@@ -33,9 +33,9 @@
                                         <input type="text" class="form-control"  name="code" placeholder="Enter code...">
                                     </div>
                                     <sqan style="color: crimson">@error('code'){{$message}}@enderror</sqan>
-                                    <div class="my-4">
+                                    <div class="my-4" id="discount">
                                         <label for="textarea">Discount</label>
-                                        <input type="number" class="form-control"  name="discount" placeholder="Enter discount...">
+                                        <input type="number" class="form-control"  name="discount"  placeholder="Enter discount..." >
                                     </div>
                                     <sqan style="color: crimson">@error('discount'){{$message}}@enderror</sqan>
                                     <div class="my-4">
@@ -43,6 +43,31 @@
                                         <input type="number" class="form-control"  name="quantity" placeholder="Enter quantity...">
                                     </div>
                                     <sqan style="color: crimson">@error('quantity'){{$message}}@enderror</sqan>
+                                    <div class="my-4">
+                                        <label for="textarea">Competition</label>
+                                        <select name="competition" id="" class="form-control">
+                                            <option selected hidden value="">Pick a competition</option>
+                                            @foreach($competition as $item)
+                                                <option value="{{$item->id}}">{{$item->title}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <sqan style="color: crimson">@error('competition'){{$message}}@enderror</sqan>
+                                    <fieldset class="my-4">
+                                        <legend class="h6">Free access</legend>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payment" id="access_no" value="1" checked>
+                                            <label class="form-check-label" for="flexRadioDefault1">
+                                              No
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="payment" id="access_yes" value="0" >
+                                            <label class="form-check-label" for="flexRadioDefault2">
+                                               Yes
+                                            </label>
+                                        </div>
+                                    </fieldset>
                                     <fieldset class="my-4">
                                         <legend class="h6">Status</legend>
                                         <div class="form-check">
@@ -72,3 +97,16 @@
         </div>
     </div>
 @endsection
+
+@push('js')
+    <script>
+        $("#access_yes").click(function(){
+                document.getElementById("discount").hidden = true;
+                $('#discount').val('0');
+        });
+        $("#access_no").click(function(){
+                document.getElementById("discount").hidden = false;
+            $('#discount').val(0);
+        });
+    </script>
+@endpush

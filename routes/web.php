@@ -53,6 +53,7 @@ Route::group(['middleware'=>['usermiddleware']], function(){
     Route::post('/reset-password-post', [UIcontroller::class, 'reset_password_post'])->name('reset_password_post');
     Route::post('/Coupon-discount', [UIcontroller::class, 'Coupon_discount'])->name('Coupon_discount');
     Route::get('/remove-coupon', [UIcontroller::class, 'remove_coupon'])->name('remove_coupon');
+    Route::get('/free-redeem-code', [UIcontroller::class, 'free_redeem_code'])->name('free_redeem_code');
 
     //square
     Route::get('/square-page', [AdminSquarePaymentController::class, 'square_page'])->name('square_page');

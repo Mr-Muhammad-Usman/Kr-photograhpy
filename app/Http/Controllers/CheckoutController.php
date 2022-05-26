@@ -146,15 +146,19 @@ class CheckoutController extends Controller
                     'comp_name'=>$comp_name->title,
                 ]);
 
-                $coupon= new Coupon_detailModel;
-                $coupon->user_id=Auth::user()->id;
-                $coupon->coupon_id=$session['coupon_id'];
 
 
-                $subtract=CouponModel::where('id',$session['coupon_id'])->first();
-                $subtract->quantity -= 1;
-                $subtract->save();
-                $coupon->save();
+                if(isset(session()->get('competition')['code']))
+                {
+                    $coupon= new Coupon_detailModel;
+                    $coupon->user_id=Auth::user()->id;
+                    $coupon->coupon_id=$session['coupon_id'];
+                    $subtract=CouponModel::where('id',$session['coupon_id'])->first();
+                    $subtract->quantity -= 1;
+                    $subtract->save();
+                    $coupon->save();
+                }
+
                 $orders->save();
 
                     // session()->put('redeem_code', $redeem_code);
