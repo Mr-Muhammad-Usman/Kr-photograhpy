@@ -66,7 +66,11 @@ Route::group(['middleware'=>['usermiddleware']], function(){
     Route::get('/error', [CheckoutController::class,'error'])->name('error');
     //mails
     Route::get('send-mail',[UIcontroller::class,'mail_post'])->name('mail_post');
+
 });
+Route::post('send-mail-pass-reset',[UIcontroller::class,'mail_post_pass_reset'])->name('mail_post_pass_reset');
+Route::get('/forget-password/{id}/{code}',[UIcontroller::class,'forget_password'])->name('forget_password');
+Route::post('change_password/{id}/{code}',[UIcontroller::class,'change_password'])->name('change_password');
 
 /*---------------------------------------Admin-Routes---------------------------------------------- */
 /**Auth Routes */

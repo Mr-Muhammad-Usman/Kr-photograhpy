@@ -178,7 +178,7 @@
                                             <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
 
                                                 <h1 class="v-font-size" style="margin: 0px; color: #000000; line-height: 100%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: 'Open Sans',sans-serif; font-size: 25px;">
-                                                    {{session()->get('sendEmail')['comp_name']}}-{{session()->get('sendEmail')['comp_date']}}
+                                                   Reset Password
                                                 </h1>
 
                                             </td>
@@ -210,11 +210,8 @@
                                         <tbody>
                                         <tr>
                                             <td style="overflow-wrap:break-word;word-break:break-word;padding:0px 10px 10px;font-family:arial,helvetica,sans-serif;" align="left">
-
-                                                <h1 class="v-font-size" style="margin: 0px; color: #000000; line-height: 140%; text-align: center; word-wrap: break-word; font-weight: normal; font-family: 'Open Sans',sans-serif; font-size: 35px;">
-                                                    <p><strong>Your Redeem Code:</strong></p>
-                                                    <p><strong>{{session()->get('sendEmail')['redeem_code']}}</strong></p>
-                                                </h1>
+{{--                                                @dd($details)--}}
+                                                <p>Dear User if you have forget your password.You can  <a href="{{route('forget_password',[$details['id'],$details['code']])}}">reset password</a>.Make sure that password is strong and unforgettable.   </p>
 
                                             </td>
                                         </tr>

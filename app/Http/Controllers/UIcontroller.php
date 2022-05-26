@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Coupon_detailModel;
 use App\Models\CouponModel;
+use App\Models\ForgetPassModel;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Stripe;
@@ -41,23 +42,19 @@ class UIcontroller extends Controller
     }
     public function login_post(Request $request)
     {
-        // dd($request);
         $request->validate([
             'Email' => 'required',
             'Pass' => 'min:8|required',
         ]);
         $emails = User::where('email', $request->Email)->where('user_role', 0)->first();
-//        $password = User::where('password',Hash::check($request->pass))->where('user_role', 0)->first();
-//        $chek=
+//        dd($emails);
         if ($emails) {
-            if (Hash::check($request->pass,$emails->password)) {
-                // dd(session()->get('competition'));
+//            Hash::check($req->password,$userfind->password)
+            if (Hash::check($request->Pass,$emails->password)) {
                 Auth::login($emails);
                 if (session()->has('competition')) {
-                    // dd(session()->get('competition'));
                     return redirect()->route('payment_method')->with('added', 'Pleace Confirm Your Payment');
                 } else {
-                    // dd('not have a session');
                     return redirect()->route('index')->with('added', 'Successfully');
                 }
             } else {
@@ -75,7 +72,7 @@ class UIcontroller extends Controller
     }
     public function register_post(Request $request)
     {
-        // dd($request);
+//         dd($request);
         $request->validate([
             'Username' => 'required|min:3|max:15|alpha',
             'Email' => 'required',
@@ -85,7 +82,7 @@ class UIcontroller extends Controller
         $user = new User;
         $user->username = $request->Username;
         $user->email = $request->Email;
-        $hashed = Hash::make($request->pass);
+        $hashed = Hash::make($request->Pass);
         $user->password =$hashed;
         $user->user_role = 0;
         $user->save();
@@ -433,5 +430,73 @@ class UIcontroller extends Controller
         session()->forget('competition');
         session()->forget('free_coupon');
         return redirect(route('mail_post'));
+    }
+    public function mail_post_pass_reset(Request $request)
+    {
+        $request->validate([
+            'mail'=>'required',
+        ]);
+        $user=User::where('email',$request->mail)->first();
+        if ($user)
+        {
+            $Pass_code = date('Ymd').time().rand(111,999);
+            $pass=new ForgetPassModel;
+            $pass->user_id=$user->id;
+            $pass->code=$Pass_code;
+            $pass->status=1;
+            $pass->save();
+            $details = [
+                'title' => 'Rsest Password ',
+                'body' => 'Visit our web site ',
+                'id'=>$user->id,
+                'user'=>$user->username,
+                'code'=>$Pass_code,
+                'status'=>1,
+            ];
+//            dd($details);
+            \Mail::to($request->mail)->send(new \App\Mail\ResetPassword($details));
+            return back()->with('added', 'Pleace visit you mail box...');
+        }
+        else
+        {
+            session()->flash('mailerror');
+            return back();
+        }
+
+    }
+    public function forget_password($id , $code)
+    {
+        $check=ForgetPassModel::where('user_id',$id)
+            ->where('code',$code)
+            ->where('status',1)
+            ->first();
+        if ($check)
+        {
+            return view('reset_password',compact('id','code'));
+        }
+        else
+        {
+            dd('else');
+        }
+                dd($check);
+    }
+    public function change_password(Request $request,$id,$code)
+    {
+        $user=User::where('id',$id)->first();
+        $request->validate([
+            'Pass' => 'min:8|required_with:con_Pass|same:con_Pass',
+            'con_Pass' => 'required|min:8',
+        ]);
+        $hashed = Hash::make($request->Pass);
+        $user->password =$hashed;
+        $user->update();
+        $pass=ForgetPassModel::where('user_id',$id)
+            ->where('code',$code)
+            ->where('status',1)
+            ->first();
+        $pass->status=0;
+        $pass->update();
+        return redirect()->route('user_login')->with('added', 'Password Changed Successfully');
+
     }
 }

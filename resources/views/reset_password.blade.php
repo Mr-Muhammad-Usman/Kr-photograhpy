@@ -5,33 +5,11 @@
       <section class="RegisterSec">
         <div class="container">
           <div class="registerForm">
-            <span>Create an Account</span>
-            <form action="{{ route('user_register_post') }}" method="post">
+            <span>Change Password</span>
+            <form action="{{ route('change_password',[$id,$code]) }}" method="post">
                 @csrf
-              <div class="labelsinside">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Username"
-                  name="Username"
-                  value="{{ session()->getOldInput('Username') }}"
-                />
-                <i class="fa-solid fa-face-smile"></i>
-                <span style="color: crimson">@error('Username'){{ $message }}  @enderror</span><br>
 
-              </div>
-              <div class="labelsinside">
-                <input
-                  type="email"
-                  class="form-control"
-                  placeholder="Email Address"
-                  name="Email"
-                  value="{{ session()->getOldInput('Email') }}"
-                />
-                <i class="fa-solid fa-envelope"></i>
-                <span style="color: crimson">@error('Email'){{ $message }}  @enderror</span><br>
 
-              </div>
               <div class="labelsinside">
                 <input
                   type="password" id="password"
@@ -58,7 +36,7 @@
               </div>
 
 
-              <button type="submit" class="btn btn-primary">Register</button>
+              <button type="submit" class="btn btn-primary">Save Changes</button>
             </form>
           </div>
           <div class="accounttext">
