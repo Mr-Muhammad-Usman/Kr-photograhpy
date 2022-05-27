@@ -9,4 +9,8 @@ class CouponModel extends Model
 {
     protected $table= "coupon_codes";
     use HasFactory;
+    public function couponWithComp()
+    {
+        return $this->hasOne(CompetitionModel::class,'id','competition_id');
+    }
 }

@@ -1,5 +1,11 @@
 @extends('admin.layouts.main')
 @section('content')
+    <!-- Button trigger modal -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
+
+
+
     <div class="py-4">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
@@ -39,6 +45,9 @@
                     <tbody>
                     <!-- Item -->
                     <!-- Start of Item -->
+                    <?php
+                        $data=0;
+                        ?>
                     @foreach($Competition as $key=>$value)
                         <tr>
                             <td class="border-0"><a href="#" class="text-primary font-weight-bold">{{$key+1}}</a> </td>
@@ -51,8 +60,11 @@
                             <td class="border-0">
                                 <a href="{{route('admin_Competition_edit').'/'.$value->id}}" class="text-secondary mr-3"><i class="fas fa-edit"></i>Edit</a>
                                 <span class="text-primary"> |  </span>
-                                <a href="{{route('admin_Competition_delete').'/'.$value->id}}" class="text-danger ml-3"><i class="far fa-trash-alt"></i>Delete</a>
+
+                                <span  data-value="{{$value->id}}" onclick="deleteFunction({{$value->id}})" class="text-danger ml-3 deleteID" ><i class="far fa-trash-alt"></i>Delete</span>
                             </td>
+{{--                            {{route('admin_Competition_delete').'/'.$value->id}}--}}
+{{--                            data-bs-toggle="modal" data-bs-target="#exampleModal"--}}
                         </tr>
                     @endforeach
                     <!-- End of Item -->
@@ -62,11 +74,67 @@
             </div>
         </div>
     </div>
+{{--    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">--}}
+{{--        Launch demo modal--}}
+{{--    </button>--}}
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Attention</h5>
+                    {{--                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>--}}
+                </div>
+                <div class="modal-body">
+                    {{$data}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 @push('js')
     <script>
         $(document).ready( function () {
             $('#table_id').DataTable();
         } );
+    </script>
+    <script>
+        function deleteFunction(myval) {
+
+            result = confirm('If you can delete competition coupon also delete');
+            // let age = prompt('',myval);
+            if ( result)
+            {
+                var id = myval
+                $.ajax({
+                    url:"{{url('/admin/Competition-delete')}}",
+                    type: 'post',
+                    data: {
+                        id:id,
+                        '_token': '{{csrf_token()}}',
+                    },
+                    cache: false,
+                    success: function(data) {
+                        if(data.status == 1)
+                        {
+                            // alert("Done");
+                            window.location.href = "{{route('admin_Competition')}}";
+                            // alert(data.data);
+                        }
+                        else
+                        {
+                            alert("Error");
+                        }
+                        // $("#name")[0].reset();
+                    }
+                });
+            }
+        }
     </script>
 @endpush

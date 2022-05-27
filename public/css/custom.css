@@ -1074,3 +1074,7 @@ li.my_dorp .dropdown:hover .dropdown-content {
     background: green;
     border: 1px solid green;
 }
+.profileUpdate
+{
+    width: 80%;
+}

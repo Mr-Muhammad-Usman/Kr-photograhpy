@@ -89,7 +89,9 @@ class AdminAuthController extends Controller
     }
     function user_add_edit_data(Request $request,User $user)
     {
-        $request=['user'=>'admin',];
+//        dd($request);
+//        $request=['user'=>'admin',];
+//        dd($request);
         $create = 1;
         (isset($user->id) and $user->id>0)?$create=0:$create=1;
         $user->username = $request->username;

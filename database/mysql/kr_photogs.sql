@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 26, 2022 at 08:18 PM
+-- Generation Time: May 27, 2022 at 09:15 PM
 -- Server version: 10.4.18-MariaDB
 -- PHP Version: 8.0.3
 
@@ -43,9 +43,7 @@ CREATE TABLE `competitions` (
 --
 
 INSERT INTO `competitions` (`id`, `title`, `competition_date`, `amount`, `status`, `url`, `created_at`, `updated_at`) VALUES
-(4, 'Qui facere ut itaque', '2022-05-20', 8, 1, 'https://www.youtube.com/embed/RLtwC2hDW8c', '2022-05-11 09:07:42', '2022-05-19 12:16:08'),
-(5, 'Dolorem totam conseq', '2022-05-19', 10, 1, 'https://www.youtube.com/embed/Z9Rs9ZFcZeM', '2022-05-11 10:22:43', '2022-05-19 12:00:13'),
-(16, 'new competitions', '2022-05-25', 15, 1, 'https://www.youtube.com/embed/TCdHr5KQ780', '2022-05-24 13:50:28', '2022-05-24 13:50:54');
+(4, 'Qui facere ut itaque', '2022-05-20', 8, 1, 'https://www.youtube.com/embed/RLtwC2hDW8c', '2022-05-11 09:07:42', '2022-05-19 12:16:08');
 
 -- --------------------------------------------------------
 
@@ -69,9 +67,10 @@ CREATE TABLE `coupon_codes` (
 --
 
 INSERT INTO `coupon_codes` (`id`, `code`, `discount`, `competition_id`, `quantity`, `status`, `created_at`, `updated_at`) VALUES
-(14, 'coupon', '100', 5, 10, 1, '2022-05-25 13:33:27', '2022-05-26 10:37:33'),
-(15, 'coupon1st', '10', 16, 7, 1, '2022-05-25 14:57:06', '2022-05-26 11:24:08'),
-(16, 'coupon2nd', '70', 5, 15, 1, '2022-05-25 14:57:53', '2022-05-25 14:57:53');
+(25, 'Nostrum do reiciendi', '100', 4, 916, 1, '2022-05-27 15:14:34', '2022-05-27 15:14:34'),
+(27, 'Delectus harum susc', '100', 4, 242, 0, '2022-05-27 15:15:37', '2022-05-27 15:15:37'),
+(28, 'Debitis ducimus aut', '100', 4, 585, 0, '2022-05-27 15:16:11', '2022-05-27 15:16:11'),
+(29, 'Et sit ad inventore', '20', 4, 609, 1, '2022-05-27 15:16:24', '2022-05-27 15:16:24');
 
 -- --------------------------------------------------------
 
@@ -164,7 +163,7 @@ CREATE TABLE `users` (
   `provider_id` varchar(255) DEFAULT NULL,
   `avatar` varchar(255) DEFAULT NULL,
   `password` varchar(555) DEFAULT NULL,
-  `user_role` int(1) NOT NULL,
+  `user_role` int(1) DEFAULT NULL,
   `status` int(11) DEFAULT 0,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
@@ -176,13 +175,15 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `username`, `email`, `provider_id`, `avatar`, `password`, `user_role`, `status`, `created_at`, `updated_at`) VALUES
 (1, 'admin', 'admin@mail.com', NULL, NULL, '$2a$12$.RhVj06/bG7/sjn4bgVi0u5fJ8nfaUOD46.FuYyPuiXy/Ntfkhv6W', 1, 1, '2022-05-25 14:11:10', '2022-05-25 14:11:10'),
-(75, 'fugefivyde', 'lizex@mailinator.com', NULL, NULL, '$2y$10$1AJz3EoOE.jjo6XNSAk.6.C62n5Ak.10vyO2V7GQc/Qc.l6VUQCwK', 0, 0, '2022-05-19 12:58:52', '2022-05-19 12:58:52'),
+(75, 'fugefivyde', 'lizex@mailinator.com', NULL, NULL, '$2y$10$1AJz3EoOE.jjo6XNSAk.6.C62n5Ak.10vyO2V7GQc/Qc.l6VUQCwK', NULL, 1, '2022-05-19 12:58:52', '2022-05-27 08:37:30'),
 (105, 'hosuruju', 'bejasa@mailinator.com', NULL, NULL, '$2y$10$.qMW88rL7efSgu43R68.9eugrjbelJPM5VnSkkDjQzm8bu7U2/7L.', 0, 0, '2022-05-25 13:05:54', '2022-05-25 13:05:54'),
 (109, 'MDs', 'sahifim205@steamoh.com', NULL, NULL, '$2y$10$Tli/pvRcg9ncVQgWcQtwKucOmrVGpbL6XdEsmroUSSdRT8QpL7VBy', 0, 0, '2022-05-26 06:19:13', '2022-05-26 06:19:13'),
-(110, 'usman', 'musmansaeed25@gmail.com', NULL, NULL, '$2y$10$3utpNFFqw0ksX8lb9Y4h9.5DEtrKsdCuhR9x5YKhbsnPaOZGXDO4.', 0, 0, '2022-05-26 08:05:31', '2022-05-26 13:09:30'),
+(110, 'usman', 'musmansaeed25@gmail.com', NULL, NULL, '$2y$10$3utpNFFqw0ksX8lb9Y4h9.5DEtrKsdCuhR9x5YKhbsnPaOZGXDO4.', NULL, 1, '2022-05-26 08:05:31', '2022-05-27 08:37:48'),
 (111, 'jeqav', 'pufes@mailinator.com', NULL, NULL, '$2y$10$Z1VBnXLo8UIyZRKjYsaXmeAgWX.bs1oVs8hxOnq1gVoP346WSRE32', 0, 0, '2022-05-26 12:53:14', '2022-05-26 12:53:14'),
 (113, 'dusiz', 'lyzo@mailinator.com', NULL, NULL, '$2y$10$gQlzwoEtBMRmXfBwAN7nUOgyW1BFiCOR5uKzLjqrShL5uzamzg/b.', 0, 0, '2022-05-26 13:02:20', '2022-05-26 13:02:20'),
-(114, 'dev', 'devpetyr911@gmail.com', NULL, NULL, '$2y$10$h2Joo7.qqi4Q522kNk12wOSvhCUU7/94rVRCu7x64cpVcqxMUXYja', 0, 0, '2022-05-26 13:02:59', '2022-05-26 13:02:59');
+(114, 'dev', 'devpetyr911@gmail.com', NULL, NULL, '$2y$10$h2Joo7.qqi4Q522kNk12wOSvhCUU7/94rVRCu7x64cpVcqxMUXYja', 0, 0, '2022-05-26 13:02:59', '2022-05-26 13:02:59'),
+(115, 'loduwo', 'jenu@mailinator.com', NULL, NULL, '$2y$10$8Mcp63XMbs6XVKbpId0wgeilTf/aDhBN0cn7KgVr2kbAhwe2smVcG', 0, 0, '2022-05-26 14:01:45', '2022-05-26 14:01:45'),
+(116, 'jaqybomaf', 'syni@mailinator.com', NULL, NULL, '$2y$10$q6VUBO0uKTkknhUi4ZLCle978xwheo7o2S6vcVUrbu2d6fdH5l0Yy', NULL, 1, '2022-05-27 06:33:57', '2022-05-27 09:13:52');
 
 --
 -- Indexes for dumped tables
@@ -232,13 +233,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `competitions`
 --
 ALTER TABLE `competitions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `coupon_codes`
 --
 ALTER TABLE `coupon_codes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT for table `coupon_details`
@@ -262,7 +263,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=115;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

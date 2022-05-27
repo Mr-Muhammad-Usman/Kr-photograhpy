@@ -46,7 +46,7 @@
                             <td class="border-0 font-weight-bold">{{$value->code}}</td>
                             <td class="border-0 font-weight-bold">{{$value->discount}}%</td>
                             <td class="border-0 font-weight-bold">{{$value->quantity}}</td>
-                            <td class="border-0 font-weight-bold">{{$value->competition_id}}</td>
+                            <td class="border-0 font-weight-bold">{{$value->couponWithComp->title}}</td>
                             <td class="border-0 font-weight-bold">
                                 <span class="{{$value->status == 1 ? 'text-success' : 'text-danger'}}">{{$value->status == 1 ? 'Active' : 'Inactive'}}</span>
                             </td>

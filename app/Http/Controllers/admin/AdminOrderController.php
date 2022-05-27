@@ -6,11 +6,11 @@ use App\Models\OrdersModel;
 
 use Illuminate\Http\Request;
 
-class AdminTestimonialsController extends Controller
+class AdminOrderController extends Controller
 {
     function order()
     {
-        $order = ordersModel ::with('order_with_user')->get();
+        $order = OrdersModel ::with('order_with_user','order_with_comp')->get();
         // dd($order);
         return view('admin.orders.order-list',compact('order'));
     }
@@ -20,15 +20,15 @@ class AdminTestimonialsController extends Controller
     }
     function testimonial_edit($id)
     {
-        $testimonial = ordersModel ::where('id',$id)->first();
+        $testimonial = OrdersModel ::where('id',$id)->first();
         return view('admin.testimonials.testimonials-edit',compact('testimonial'));
     }
-    function testimonial_delete(ordersModel $testimonial)
+    function testimonial_delete(OrdersModel $testimonial)
     {
         $testimonial->delete();
         return back()->with('delete','Deleted Successfully');
     }
-    function testimonial_add_edit_data(Request $request, ordersModel $testimonial)
+    function testimonial_add_edit_data(Request $request, OrdersModel $testimonial)
     {
         $create = 1;
         (isset($testimonial->id) and $testimonial->id>0)?$create=0:$create=1;

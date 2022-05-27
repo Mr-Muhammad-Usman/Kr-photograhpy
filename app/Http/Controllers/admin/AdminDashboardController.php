@@ -11,7 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class AdminBannerController extends Controller
+class AdminDashboardController extends Controller
 {
     function dashboard()
     {

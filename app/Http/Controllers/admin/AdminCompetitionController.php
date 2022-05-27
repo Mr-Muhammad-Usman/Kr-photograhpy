@@ -23,27 +23,23 @@ class AdminCompetitionController extends Controller
         $Competition = CompetitionModel::where('id',$id)->first();
         return view('admin.Competitions.Competition-edit',compact('Competition'));
     }
-    function Competition_delete(CompetitionModel $Competition)
+    function Competition_delete(Request $req)
     {
-        // dd($Competition->title);
-        $check=ordersModel::where('competition_name',$Competition->title)->first();
+//         dd($req->all());
+        $check=CompetitionModel::where('id',$req->id)->first();
         if($check)
         {
-            // dd('Can not Delet');
-            return back()->with('delete','You cannot delete this. this is already linked with Competition.');
+            $coupon=CouponModel::where('competition_id',$req->id)->get();
+            foreach ($coupon as $item)
+            {
+                $item->delete();
+            }
+//            dd($coupon->all());
         }
-        else
-        {
-//             dd($Competition->id);
-             $coupon=CouponModel::where('competition_id',$Competition->id)->get();
-            echo "<script>";
-            echo "alert('hello');";
-            echo "</script>";
-            dd($coupon);
-            $Competition->delete();
-            return back()->with('delete','Deleted Successfully');
-        }
-
+        $check->delete();
+        return response()->json([
+            'status' => 1,
+        ]);
     }
     function Competition_add_edit_data(Request $request,CompetitionModel $Competition)
     {

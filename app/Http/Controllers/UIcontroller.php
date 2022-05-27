@@ -46,7 +46,7 @@ class UIcontroller extends Controller
             'Email' => 'required',
             'Pass' => 'min:8|required',
         ]);
-        $emails = User::where('email', $request->Email)->where('user_role', 0)->first();
+        $emails = User::where('email', $request->Email)->where('status', 1)->first();
 //        dd($emails);
         if ($emails) {
 //            Hash::check($req->password,$userfind->password)
@@ -59,11 +59,11 @@ class UIcontroller extends Controller
                 }
             } else {
                 session()->flash('passerror');
-                return back()->with('input_email', $request->log_email);
+                return back()->with('input_pass', $request->log_password);
             }
         } else {
             session()->flash('emailerror');
-            return back()->with('input_pass', $request->log_password);
+            return back()->with('input_email', $request->log_email);
         }
     }
     public function register()
@@ -79,21 +79,31 @@ class UIcontroller extends Controller
             'Pass' => 'min:8|required_with:con_Pass|same:con_Pass',
             'con_Pass' => 'required|min:8',
         ]);
-        $user = new User;
-        $user->username = $request->Username;
-        $user->email = $request->Email;
-        $hashed = Hash::make($request->Pass);
-        $user->password =$hashed;
-        $user->user_role = 0;
-        $user->save();
-        Auth::login($user);
-        if (session()->has('competition')) {
-            // dd(session()->get('competition'));
-            return redirect()->route('payment_method');
-        } else {
-            // dd('not have a session');
-            return redirect()->route('index')->with('added', 'Register and Login Successfully');
+        $check=User::where('email',$request->Email)->first();
+        if (!$check)
+        {
+            $user = new User;
+            $user->username = $request->Username;
+            $user->email = $request->Email;
+            $hashed = Hash::make($request->Pass);
+            $user->password =$hashed;
+            $user->user_role = 0;
+            $user->save();
+            Auth::login($user);
+            if (session()->has('competition')) {
+                // dd(session()->get('competition'));
+                return redirect()->route('payment_method');
+            } else {
+                // dd('not have a session');
+                return redirect()->route('index')->with('added', 'Register and Login Successfully');
+            }
         }
+        else
+        {
+            session()->flash('emailexist');
+            return back();
+        }
+
 
         // return redirect()->route('index');
 
@@ -262,13 +272,14 @@ class UIcontroller extends Controller
             'con_Pass' => 'min:8|max:15',
         ]);
         $user =User::where('id',Auth::user()->id)->first();
-        $password_check=$user->where('password',$request->old_Pass)->first();
-        if ($password_check)
+         $check=Hash::check($request->old_Pass,$user->password);
+        if ($check)
         {
-//            $user = new User;
-            $user->password = $request->Pass;
-            $user->update();
-            return back()->with('added', 'Profile Updated');
+          $hashed = Hash::make($request->Pass);
+          $user->password = $hashed;
+          $user->update();
+          Auth::logout();
+          return back()->with('added', 'Profile Updated');
         }
         else
         {
@@ -283,7 +294,6 @@ class UIcontroller extends Controller
     public function comp_ajax(Request  $req)
     {
         $comp_data=CompetitionModel::where('id',$req->name)->first();
-//        dd($comp_data->competition_date);
         return response()->json([
             'status' => 1,
             'data' => $comp_data->competition_date,
@@ -476,9 +486,8 @@ class UIcontroller extends Controller
         }
         else
         {
-            dd('else');
+            return view('linkExpire');
         }
-                dd($check);
     }
     public function change_password(Request $request,$id,$code)
     {

@@ -66,7 +66,12 @@
                         <tr>
                             <td class="border-0"><a href="#" class="text-primary font-weight-bold">{{$key+1}}</a> </td>
                             <td class="border-0 font-weight-bold">{{$value->order_with_user->email}}</td>
-                            <td class="border-0 font-weight-bold">{{$value->competition_name}}</td>
+                            @if(isset($value->order_with_comp->title))
+                                <td class="border-0 font-weight-bold">{{$value->order_with_comp->title}}</td>
+                            @else
+                                <td class="border-0 font-weight-bold">competition deleted</td>
+                            @endif
+
                             <td class="border-0">{{ $value->competition_date }}</td>
                             <td class="border-0">${{ $value->price }}</td>
                             <td class="border-0">{{ $value->redeem_code }}</td>

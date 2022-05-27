@@ -35,7 +35,7 @@
                                     <sqan style="color: crimson">@error('code'){{$message}}@enderror</sqan>
                                     <div class="my-4" id="discount">
                                         <label for="textarea">Discount</label>
-                                        <input type="number" class="form-control"  name="discount"  placeholder="Enter discount..." >
+                                        <input type="number" class="form-control"  name="discount" id="discountInput"  placeholder="Enter discount..." >
                                     </div>
                                     <sqan style="color: crimson">@error('discount'){{$message}}@enderror</sqan>
                                     <div class="my-4">
@@ -102,11 +102,11 @@
     <script>
         $("#access_yes").click(function(){
                 document.getElementById("discount").hidden = true;
-                $('#discount').val('0');
+                $('#discountInput').val(0);
         });
         $("#access_no").click(function(){
-                document.getElementById("discount").hidden = false;
-            $('#discount').val(0);
+            document.getElementById("discount").hidden = false;
+            // $('#discountInput').val(0);
         });
     </script>
 @endpush

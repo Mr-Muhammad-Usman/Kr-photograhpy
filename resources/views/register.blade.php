@@ -30,6 +30,9 @@
                 />
                 <i class="fa-solid fa-envelope"></i>
                 <span style="color: crimson">@error('Email'){{ $message }}  @enderror</span><br>
+                  @if (session('emailexist'))
+                      <span style="color: crimson">Email already Exist</span><br>
+                  @endif
 
               </div>
               <div class="labelsinside">

@@ -7,7 +7,7 @@
             <row><h2 class="user-profile-update">My Profile</h2></row>
             <div class="row">
 
-                <div class="col-sm-6"><div class="registerForm">
+                <div class="col-sm-6"><div class="registerForm profileUpdate">
                         <span>Profile</span>
                         <form action="{{ route('user_profile_post') }}" method="post">
                             @csrf
@@ -27,7 +27,7 @@
                             <button type="submit" class="btn btn-primary">Save Changes</button>
                         </form>
                     </div></div>
-                <div class="col-sm-6"><div class="registerForm">
+                <div class="col-sm-6"><div class="registerForm profileUpdate">
                         <span>Reset Password</span>
                         <form action="{{ route('reset_password_post') }}" method="post">
                             @csrf
@@ -38,7 +38,6 @@
                                     class="form-control"
                                     placeholder="Old Password"
                                     name="old_Pass"
-                                    value="{{ session()->getOldInput('Pass') }}"
                                 />
                                 <i class="fa-solid fa-eye" onclick="myFunction()"></i>
                                 <span style="color: crimson">@error('old_Pass'){{ $message }}  @enderror</span><br>
@@ -50,7 +49,6 @@
                                     class="form-control"
                                     placeholder="New Password"
                                     name="Pass"
-                                    value="{{ session()->getOldInput('con_Pass') }}"
                                 />
                                 <i class="fa-solid fa-eye" onclick="myFunction1()"></i>
                                 <span style="color: crimson">@error('Pass'){{ $message }}  @enderror</span><br>
@@ -58,13 +56,12 @@
                             </div>
                             <div class="labelsinside">
                                 <input
-                                    type="password" id="retype"
+                                    type="password" id="con_pass"
                                     class="form-control"
                                     placeholder="Confirm Password"
                                     name="con_Pass"
-                                    value="{{ session()->getOldInput('con_Pass') }}"
                                 />
-                                <i class="fa-solid fa-eye" onclick="myFunction1()"></i>
+                                <i class="fa-solid fa-eye" onclick="conPass()"></i>
                                 <span style="color: crimson">@error('con_Pass'){{ $message }}  @enderror</span><br>
 
                             </div>

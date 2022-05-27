@@ -12,7 +12,7 @@ class AdminCouponController extends Controller
 {
     function Coupon_list()
     {
-        $Coupon = CouponModel::get();
+        $Coupon = CouponModel::with('couponWithComp')->get();
 //        dd($Coupon);
         return view('admin.Coupons.Coupon-list',compact('Coupon'));
     }
@@ -39,7 +39,6 @@ class AdminCouponController extends Controller
     }
     function Coupon_add_edit_data(Request $request,CouponModel $Coupon)
     {
-//        dd($request);
         $this->validate(
             $request,
             [
@@ -68,6 +67,7 @@ class AdminCouponController extends Controller
         }
         else
         {
+//            dd('hello');
             $Coupon->discount = $request->discount;
         }
         $Coupon->status = $request->status;

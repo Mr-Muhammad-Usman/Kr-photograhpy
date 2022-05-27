@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\admin\AdminAuthController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\admin\AdminBannerController;
+use App\Http\Controllers\admin\AdminDashboardController;
 use App\Http\Controllers\admin\AdminCompetitionController;
 use App\Http\Controllers\admin\AdminCouponController;
-use App\Http\Controllers\admin\AdminTestimonialsController;
+use App\Http\Controllers\admin\AdminOrderController;
 use App\Http\Controllers\UIcontroller;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\AdminSquarePaymentController;
@@ -82,20 +82,20 @@ Route::post('change_password/{id}/{code}',[UIcontroller::class,'change_password'
 /**Admin Auth Middleware Starts */
 Route::group(['middleware'=>['protectedPage']], function(){
 
-    // AdminBannerController dashboard
+    // AdminDashboardController dashboard
     //AdminAuthController user
     //AdminCompetitionController competition
-    //AdminTestimonialsController orders
+    //AdminOrderController orders
 
     /**Dashboard Routes */
-        Route::get('/admin/dashboard', [AdminBannerController::class, 'dashboard'])->name('admin_dashboard');
+        Route::get('/admin/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin_dashboard');
 
     /**Banner Routes */
-        Route::get('/admin/banner-list', [AdminBannerController::class, 'banner'])->name('admin_banners');
-        Route::get('/admin/banner-add', [AdminBannerController::class, 'banner_add'])->name('admin_banners_add');
-        Route::get('/admin/banner-edit/{id?}', [AdminBannerController::class, 'banner_edit'])->name('admin_banners_edit');
-        Route::get('/admin/banner-delete/{banner?}', [AdminBannerController::class, 'banner_delete'])->name('admin_banners_delete');
-        Route::post('/admin/banner-add-edit/{banner?}', [AdminBannerController::class, 'banner_add_edit_data'])->name('admin_banners_add_edit');
+        Route::get('/admin/banner-list', [AdminDashboardController::class, 'banner'])->name('admin_banners');
+        Route::get('/admin/banner-add', [AdminDashboardController::class, 'banner_add'])->name('admin_banners_add');
+        Route::get('/admin/banner-edit/{id?}', [AdminDashboardController::class, 'banner_edit'])->name('admin_banners_edit');
+        Route::get('/admin/banner-delete/{banner?}', [AdminDashboardController::class, 'banner_delete'])->name('admin_banners_delete');
+        Route::post('/admin/banner-add-edit/{banner?}', [AdminDashboardController::class, 'banner_add_edit_data'])->name('admin_banners_add_edit');
 
     /**Profile Routes */
         Route::get('/admin/profile', [AdminAuthController::class, 'admin_profile'])->name('admin_profile');
@@ -113,7 +113,7 @@ Route::group(['middleware'=>['protectedPage']], function(){
         Route::get('/admin/Competition-list', [AdminCompetitionController::class, 'Competition_list'])->name('admin_Competition');
         Route::get('/admin/Competition-add', [AdminCompetitionController::class, 'Competition_add'])->name('admin_Competition_add');
         Route::get('/admin/Competition-edit/{id?}', [AdminCompetitionController::class, 'Competition_edit'])->name('admin_Competition_edit');
-        Route::get('/admin/Competition-delete/{Competition?}', [AdminCompetitionController::class, 'Competition_delete'])->name('admin_Competition_delete');
+        Route::post('/admin/Competition-delete', [AdminCompetitionController::class, 'Competition_delete'])->name('admin_Competition_delete');
         Route::post('/admin/Competition-add-edit/{Competition?}', [AdminCompetitionController::class, 'Competition_add_edit_data'])->name('admin_Competition_add_edit');
 
 
@@ -124,8 +124,8 @@ Route::group(['middleware'=>['protectedPage']], function(){
     Route::get('/admin/Coupon-delete/{Coupon?}', [AdminCouponController::class, 'Coupon_delete'])->name('admin_Coupon_delete');
     Route::post('/admin/Coupon-add-edit/{Coupon?}', [AdminCouponController::class, 'Coupon_add_edit_data'])->name('admin_Coupon_add_edit');
     /**order Routes */
-    Route::get('/admin/order', [AdminTestimonialsController::class, 'order'])->name('order');
-    Route::post('/admin/order-filter', [AdminTestimonialsController::class, 'order_filter'])->name('order_filter');
+    Route::get('/admin/order', [AdminOrderController::class, 'order'])->name('order');
+    Route::post('/admin/order-filter', [AdminOrderController::class, 'order_filter'])->name('order_filter');
 
 });
 

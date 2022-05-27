@@ -60,6 +60,16 @@ function myFunction() {
 }
 </script>
 <script>
+    function conPass() {
+        var y = document.getElementById("con_pass");
+        if (y.type === "password") {
+            y.type = "text";
+        } else {
+            y.type = "password";
+        }
+    }
+</script>
+<script>
     function myFunction2() {
   var y = document.getElementById("login");
   if (y.type === "password") {

@@ -9,4 +9,5 @@ class CompetitionModel extends Model
 {
     protected $table= "competitions";
     use HasFactory;
+
 }

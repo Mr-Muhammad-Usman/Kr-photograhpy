@@ -34,7 +34,7 @@
                                     </div>
                                     <div class="my-4" id="discount">
                                         <label for="textarea">Discount</label>
-                                        <input type="number" class="form-control"  name="discount"  value="{{$Coupon->discount}}">
+                                        <input type="number" class="form-control"  name="discount" id="discountInput"  value="{{$Coupon->discount}}">
                                     </div>
                                     <div class="my-4">
                                         <label for="textarea">Quantity</label>
@@ -105,16 +105,22 @@
                 document.getElementById("discount").hidden = true;
                 document.getElementById("access_yes").checked = true;
             }
+            else
+            {
+                document.getElementById("discount").hidden = false;
+                document.getElementById("access_no").checked = true;
+            }
 
             $("#access_yes").click(function(){
                 document.getElementById("discount").hidden = true;
-                $('#discount').val('0');
+                $('#discountInput').val(0);
             });
             $("#access_no").click(function(){
                 document.getElementById("discount").hidden = false;
-                $('#discount').val(0);
+                // $('#discountInput').val(0);
             });
         });
     </script>
 @endpush
+
 
