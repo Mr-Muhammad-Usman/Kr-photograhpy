@@ -2,7 +2,7 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\ordersModel;
+use App\Models\OrdersModel;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,11 +21,11 @@ class userMiddleware
         //
         if(Auth::check() && Auth::user()->role==0)
         {
-            $emails=ordersModel::where('user_id',Auth::user()->id && Auth::user()->user_role==0)->first();
+            $emails=OrdersModel::where('user_id',Auth::user()->id && Auth::user()->user_role==0)->first();
             if($emails)
             {
                 // dd('nahe mela');
-                return redirect()->route('user-myredeem')->with('failed','you have already booked competition');
+                return redirect()->route('user_myredeem');
             }
             else
             {

@@ -6,7 +6,7 @@ use App\Models\BannerModel;
 
 
 use App\Http\Controllers\Controller;
-use App\Models\ordersModel;
+use App\Models\OrdersModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +15,7 @@ class AdminDashboardController extends Controller
 {
     function dashboard()
     {
-        $yearlyMemberships = ordersModel::select(
+        $yearlyMemberships = OrdersModel::select(
             DB::raw("year(created_at) as year"),
             DB::raw("month(created_at) as month"),
             DB::raw("SUM(price) as price"),

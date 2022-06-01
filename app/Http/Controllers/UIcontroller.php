@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Stripe;
 use App\Models\CompetitionModel;
-use App\Models\ordersModel;
+use App\Models\OrdersModel;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
@@ -32,7 +32,7 @@ class UIcontroller extends Controller
     }
     public function myredeem()
     {
-        $data = ordersModel::with('order_with_comp')->where('user_id', Auth::user()->id)->get();
+        $data = OrdersModel::with('order_with_comp')->where('user_id', Auth::user()->id)->get();
 //        dd($data);
         return view('myredeem', compact('data'));
     }
@@ -46,20 +46,26 @@ class UIcontroller extends Controller
             'Email' => 'required',
             'Pass' => 'min:8|required',
         ]);
-        $emails = User::where('email', $request->Email)->where('status', 1)->first();
+        $emails = User::where('email', $request->Email)->where('user_role', 0)->first();
 //        dd($emails);
         if ($emails) {
-//            Hash::check($req->password,$userfind->password)
-            if (Hash::check($request->Pass,$emails->password)) {
-                Auth::login($emails);
-                if (session()->has('competition')) {
-                    return redirect()->route('payment_method')->with('added', 'Pleace Confirm Your Payment');
-                } else {
-                    return redirect()->route('index')->with('added', 'Successfully');
-                }
-            } else {
-                session()->flash('passerror');
-                return back()->with('input_pass', $request->log_password);
+            $statusCheck = User::where('email', $request->Email)->where('status', 1)->where('user_role', 0)->first();
+            if ($statusCheck) {
+                if (Hash::check($request->Pass,$emails->password)) {
+                    Auth::login($emails);
+                    if (session()->has('competition')) {
+                        return redirect()->route('payment_method')->with('added', 'Pleace Confirm Your Payment');
+                    } else {
+                        return redirect()->route('index')->with('added', 'Successfully');
+                    }
+                    } else {
+                        session()->flash('passerror');
+                        return back()->with('input_pass', $request->log_password);
+                    }
+            }
+            else {
+                session()->flash('statusCheck');
+                return back()->with('input_email', $request->log_email);
             }
         } else {
             session()->flash('emailerror');
@@ -166,7 +172,7 @@ class UIcontroller extends Controller
 //        if ($stripe->status === "succeeded") {
 //            $redeem_code = date('Ymd').time().rand(111111,999999);
 //            $session=session()->get('competition');
-//            $orders = new ordersModel;
+//            $orders = new OrdersModel;
 //            $orders->payer_id = $stripe->id;
 //            $orders->user_id = Auth::user()->id;
 //            $orders->price = $session['amount'] ;
@@ -223,10 +229,10 @@ class UIcontroller extends Controller
             'redeem_code' => 'required|min:24',
         ]);
         $date = Carbon::now();
-        $redeem=ordersModel::where('redeem_code',$request->redeem_code)->first();
+        $redeem=OrdersModel::where('redeem_code',$request->redeem_code)->first();
         if($redeem)
         {
-            $redeem_date=ordersModel::where('competition_date',$date->format('Y-m-d'))
+            $redeem_date=OrdersModel::where('competition_date',$date->format('Y-m-d'))
                 ->where('redeem_code',$request->redeem_code)
                 ->first();
 //            dd($redeem_date);
@@ -403,7 +409,7 @@ class UIcontroller extends Controller
 //        dd('hello');
         $redeem_code = date('Ymd').time().rand(111111,999999);
         $session=session()->get('competition');
-        $orders = new ordersModel;
+        $orders = new OrdersModel;
 //        $orders->payer_id = $arr_body['id'];
         $orders->user_id = Auth::user()->id;
         $orders->price = 0 ;

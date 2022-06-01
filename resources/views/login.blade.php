@@ -19,8 +19,11 @@
                 <i class="fa-solid fa-face-smile" ></i>
                 <span style="color: crimson">@error('Email'){{ $message }}  @enderror</span>
                 @if (session('emailerror'))
-                <span style="color: crimson">mail not confirm</span>
+                <span style="color: crimson">Email not found</span>
                 @endif
+                  @if (session('statusCheck'))
+                      <span style="color: crimson">Email not confirm by admin</span>
+                  @endif
               </div>
               <div class="labelsinside">
                 <input

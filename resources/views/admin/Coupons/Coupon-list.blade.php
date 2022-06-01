@@ -50,11 +50,18 @@
                             <td class="border-0 font-weight-bold">
                                 <span class="{{$value->status == 1 ? 'text-success' : 'text-danger'}}">{{$value->status == 1 ? 'Active' : 'Inactive'}}</span>
                             </td>
-                            <td class="border-0">
-                                <a href="{{route('admin_Coupon_edit').'/'.$value->id}}" class="text-secondary mr-3"><i class="fas fa-edit"></i>Edit</a>
-                                <span class="text-primary"> |  </span>
-                                <a href="{{route('admin_Coupon_delete').'/'.$value->id}}" class="text-danger ml-3"><i class="far fa-trash-alt"></i>Delete</a>
-                            </td>
+                            @if($value->soft_delete == null)
+                                <td class="border-0">
+                                    <a href="{{route('admin_Coupon_edit').'/'.$value->id}}" class="text-secondary mr-3"><i class="fas fa-edit"></i>Edit</a>
+                                    <span class="text-primary"> |  </span>
+                                    <a href="{{route('admin_Coupon_delete').'/'.$value->id}}" class="text-danger ml-3"><i class="far fa-trash-alt"></i>Delete</a>
+                                </td>
+                            @else
+                                <td class="border-0">
+                                    <span style="color: red">Deleted</span>
+
+                                </td>
+                            @endif
                         </tr>
                     @endforeach
                     <!-- End of Item -->

@@ -14,7 +14,7 @@ use Stripe;
 use Session;
 use Omnipay\Omnipay;
 use Illuminate\Http\Request;
-use App\Models\ordersModel;
+use App\Models\OrdersModel;
 
 class CheckoutController extends Controller
 {
@@ -127,7 +127,7 @@ class CheckoutController extends Controller
 
                 $redeem_code = date('Ymd').time().rand(111111,999999);
                 $session=session()->get('competition');
-                $orders = new ordersModel;
+                $orders = new OrdersModel;
                 $orders->payer_id = $arr_body['id'];
                 $orders->user_id = Auth::user()->id;
                 $orders->price = $session['amount'] ;

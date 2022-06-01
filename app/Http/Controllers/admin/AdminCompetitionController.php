@@ -4,7 +4,8 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use App\Models\CompetitionModel;
 use App\Models\CouponModel;
-use App\Models\ordersModel;
+use App\Models\OrdersModel;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AdminCompetitionController extends Controller
@@ -25,18 +26,24 @@ class AdminCompetitionController extends Controller
     }
     function Competition_delete(Request $req)
     {
-//         dd($req->all());
+        $date=Carbon::now();
+
+
         $check=CompetitionModel::where('id',$req->id)->first();
         if($check)
         {
             $coupon=CouponModel::where('competition_id',$req->id)->get();
             foreach ($coupon as $item)
             {
-                $item->delete();
+                $item->soft_delete=$date;
+                $item->status=0;
+                $item->update();
             }
 //            dd($coupon->all());
         }
-        $check->delete();
+        $check->soft_delete=$date;
+        $check->status=0;
+        $check->update();
         return response()->json([
             'status' => 1,
         ]);

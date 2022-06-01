@@ -57,12 +57,18 @@
                             <td class="border-0 font-weight-bold">
                                 <span class="{{$value->status == 1 ? 'text-success' : 'text-danger'}}">{{$value->status == 1 ? 'Active' : 'Inactive'}}</span>
                             </td>
-                            <td class="border-0">
-                                <a href="{{route('admin_Competition_edit').'/'.$value->id}}" class="text-secondary mr-3"><i class="fas fa-edit"></i>Edit</a>
-                                <span class="text-primary"> |  </span>
+                            @if($value->soft_delete == null)
+                                <td class="border-0">
+                                    <a href="{{route('admin_Competition_edit').'/'.$value->id}}" class="text-secondary mr-3"><i class="fas fa-edit"></i>Edit</a>
+                                    <span class="text-primary"> |  </span>
+                                    <span  data-value="{{$value->id}}" onclick="deleteFunction({{$value->id}})" class="text-danger ml-3 deleteID" ><i class="far fa-trash-alt"></i>Delete</span>
+                                </td>
+                            @else
+                                <td class="border-0">
+                                  <span style="color: red">Deleted</span>
+                                </td>
+                            @endif
 
-                                <span  data-value="{{$value->id}}" onclick="deleteFunction({{$value->id}})" class="text-danger ml-3 deleteID" ><i class="far fa-trash-alt"></i>Delete</span>
-                            </td>
 {{--                            {{route('admin_Competition_delete').'/'.$value->id}}--}}
 {{--                            data-bs-toggle="modal" data-bs-target="#exampleModal"--}}
                         </tr>
