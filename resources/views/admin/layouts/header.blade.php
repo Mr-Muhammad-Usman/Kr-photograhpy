@@ -41,6 +41,7 @@ function active($current_page){
         </div>
       </div>
       <ul class="nav flex-column">
+        
         <li class="nav-item  {{ active('dashboard') }} ">
           <a href="{{route('admin_dashboard')}}" class="nav-link">
             <span class="sidebar-icon"><span class="fas fa-chart-pie"></span></span>
@@ -76,7 +77,12 @@ function active($current_page){
           </li>
 
         <li role="separator" class="dropdown-divider mt-4 mb-3 border-black"></li>
-
+  <li class="nav-item {{ active('admin-profile') . active('admin-add') . active('admin-edit') }}">
+              <a href="{{route('admin_profile')}}" class="nav-link">
+                  <span class="sidebar-icon"><span class="fas fa-users"></span></span>
+                  <span>Profile</span>
+              </a>
+          </li>
         <li class="nav-item">
           <a href="{{route('admin_logout')}}" class="nav-link d-flex align-items-center">
             <span class="sidebar-icon">

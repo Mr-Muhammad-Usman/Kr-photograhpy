@@ -71,7 +71,7 @@
                             @if(isset($value->order_with_comp->title))
                                 <td class="border-0 font-weight-bold">{{$value->order_with_comp->title}}</td>
                             @else
-                                <td class="border-0 font-weight-bold">competition deleted</td>
+                                <td class="border-0 font-weight-bold" style="color: red">competition deleted</td>
                             @endif
                             <td class="border-0">{{ $value->competition_date }}</td>
                             <td class="border-0">${{ $value->price }}</td>

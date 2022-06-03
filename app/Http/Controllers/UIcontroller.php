@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Stripe;
 use App\Models\CompetitionModel;
-use App\Models\ordersModel;
+use App\Models\OrdersModel;
 use App\Models\User;
 use DateTime;
 use Illuminate\Http\Request;
@@ -32,7 +32,7 @@ class UIcontroller extends Controller
     }
     public function myredeem()
     {
-        $data = ordersModel::with('order_with_comp')->where('user_id', Auth::user()->id)->get();
+        $data = OrdersModel::with('order_with_comp')->where('user_id', Auth::user()->id)->get();
 //        dd($data);
         return view('myredeem', compact('data'));
     }
@@ -41,26 +41,33 @@ class UIcontroller extends Controller
         return view('login');
     }
     public function login_post(Request $request)
-    {
+   {
         $request->validate([
             'Email' => 'required',
             'Pass' => 'min:8|required',
         ]);
-        $emails = User::where('email', $request->Email)->where('status', 1)->first();
-//        dd($emails);
+        $emails = User::where('email', $request->Email)->where('user_role', 0)->first();
+       
         if ($emails) {
-//            Hash::check($req->password,$userfind->password)
-            if (Hash::check($request->Pass,$emails->password)) {
-                Auth::login($emails);
-                if (session()->has('competition')) {
-                    return redirect()->route('payment_method')->with('added', 'Pleace Confirm Your Payment');
-                } else {
-                    return redirect()->route('index')->with('added', 'Successfully');
-                }
-            } else {
-                session()->flash('passerror');
-                return back()->with('input_pass', $request->log_password);
+            //  dd($emails);
+            $statusCheck = User::where('email', $request->Email)->where('status', 1)->where('user_role', 0)->first();
+            if ($statusCheck) {
+                if (Hash::check($request->Pass,$emails->password)) {
+                    Auth::login($emails);
+                    if (session()->has('competition')) {
+                        return redirect()->route('payment_method')->with('added', 'Pleace Confirm Your Payment');
+                    } else {
+                        return redirect()->route('index')->with('added', 'Successfully');
+                    }
+                    } else {
+                        session()->flash('passerror');
+                        return back()->with('input_pass', $request->log_password);
+                    }
             }
+            else {
+                session()->flash('statusCheck');
+                return back()->with('input_email', $request->log_email);
+                 }
         } else {
             session()->flash('emailerror');
             return back()->with('input_email', $request->log_email);
@@ -166,7 +173,7 @@ class UIcontroller extends Controller
 //        if ($stripe->status === "succeeded") {
 //            $redeem_code = date('Ymd').time().rand(111111,999999);
 //            $session=session()->get('competition');
-//            $orders = new ordersModel;
+//            $orders = new OrdersModel;
 //            $orders->payer_id = $stripe->id;
 //            $orders->user_id = Auth::user()->id;
 //            $orders->price = $session['amount'] ;
@@ -223,10 +230,10 @@ class UIcontroller extends Controller
             'redeem_code' => 'required|min:24',
         ]);
         $date = Carbon::now();
-        $redeem=ordersModel::where('redeem_code',$request->redeem_code)->first();
+        $redeem=OrdersModel::where('redeem_code',$request->redeem_code)->first();
         if($redeem)
         {
-            $redeem_date=ordersModel::where('competition_date',$date->format('Y-m-d'))
+            $redeem_date=OrdersModel::where('competition_date',$date->format('Y-m-d'))
                 ->where('redeem_code',$request->redeem_code)
                 ->first();
 //            dd($redeem_date);
@@ -321,7 +328,6 @@ class UIcontroller extends Controller
         $request->validate([
             'code'=>'required',
         ]);
-//        dd($competition);
         $code=CouponModel::where('code',$request->code)
             ->where('status',1)
             ->where('quantity','>',0)
@@ -343,9 +349,11 @@ class UIcontroller extends Controller
                 if ($disc_check)
                 {
                     session()->put('free_coupon','Free Coupon');
+                    $competition['code']=$code->code;
                     $competition['amount']=0;
+                    $competition['discount']=$code->discount;
+                    $competition['coupon_id']=$code->id;
                     session()->put('competition',$competition);
-//                    dd(session()->get('free_coupon'));
                     return back()->with('added', 'Free Coupon Added...');
                 }
                 else
@@ -361,7 +369,6 @@ class UIcontroller extends Controller
                         $competition['discount']=$code->discount;
                         $competition['coupon_id']=$code->id;
                         session()->put('competition',$competition);
-//                    dd($competition);
                         return back()->with('added', 'Coupon Added...');
                     }
                     else
@@ -396,14 +403,13 @@ class UIcontroller extends Controller
         session()->put('competition',$session);
         session()->forget('free_coupon');
         return back()->with('failed', 'Coupon remove...');
-//        dd(session()->has('competition')['code']);
     }
     public function free_redeem_code()
     {
-//        dd('hello');
+        
         $redeem_code = date('Ymd').time().rand(111111,999999);
         $session=session()->get('competition');
-        $orders = new ordersModel;
+        $orders = new OrdersModel;
 //        $orders->payer_id = $arr_body['id'];
         $orders->user_id = Auth::user()->id;
         $orders->price = 0 ;
@@ -421,16 +427,16 @@ class UIcontroller extends Controller
             'comp_date'=>$session['date'],
             'comp_name'=>$comp_name->title,
         ]);
-
         if(isset(session()->get('competition')['code']))
         {
             $coupon= new Coupon_detailModel;
             $coupon->user_id=Auth::user()->id;
             $coupon->coupon_id=$session['coupon_id'];
             $subtract=CouponModel::where('id',$session['coupon_id'])->first();
-            $subtract->quantity -= 1;
-            $subtract->save();
+                    $subtract->quantity -= 1;
+                    $subtract->save();
             $coupon->save();
+          
         }
 
         $orders->save();

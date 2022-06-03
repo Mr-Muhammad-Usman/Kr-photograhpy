@@ -21,6 +21,9 @@
                 @if (session('emailerror'))
                 <span style="color: crimson">mail not confirm</span>
                 @endif
+                 @if (session('statusCheck'))
+                      <span style="color: crimson">Your Email is in active</span>
+                  @endif
               </div>
               <div class="labelsinside">
                 <input
@@ -33,7 +36,7 @@
                 <i class="fa-solid fa-eye" onclick="myFunction2()"></i>
                 <span style="color: crimson">@error('Pass'){{ $message }}  @enderror</span>
                 @if (session('passerror'))
-                <span style="color: crimson">Password not found</span>
+                <span style="color: crimson">Password not match</span>
                 @endif
               </div>
               <button type="submit" class="btn btn-primary">Log In</button>

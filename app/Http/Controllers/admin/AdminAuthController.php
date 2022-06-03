@@ -99,7 +99,7 @@ class AdminAuthController extends Controller
         if($request->password){
             $user->password = Hash::make($request->password);
         }
-        $user->user_role = $request->user_role;
+        $user->user_role = 0;
         $user->status = $request->status;
         $user->save();
         if($create == 0)

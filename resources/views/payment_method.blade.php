@@ -79,12 +79,13 @@
                                         <span style="color: crimson">This coupon code is use only one time</span><br>
                                     @endif
                                 </div>
-
-                                @if(isset(session()->get('competition')['code']))
+                                @if(session()->has('free_coupon'))
+                                 <a href="{{route('remove_coupon')}}" class="btn btn-danger">Remove coupon</a>
+                                <a href="{{route('free_redeem_code')}}" class="btn btn-primary">Get free Redeem code</a>
+                                
+                                
+                               @elseif(isset( session()->get('competition')['discount'] ) )
                                     <a href="{{route('remove_coupon')}}" class="btn btn-danger">Remove coupon</a>
-                                @elseif(session()->has('free_coupon'))
-                                    <a href="{{route('remove_coupon')}}" class="btn btn-danger">Remove coupon</a>
-                                    <a href="{{route('free_redeem_code')}}" class="btn btn-primary">Get free Redeem code</a>
                                 @else
                                     <div class="fom_2">
                                     <button type="submit" class="btn btn-primary">Add Coupon</button>

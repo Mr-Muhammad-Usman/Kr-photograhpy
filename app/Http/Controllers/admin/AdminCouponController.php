@@ -12,13 +12,13 @@ class AdminCouponController extends Controller
 {
     function Coupon_list()
     {
-        $Coupon = CouponModel::with('couponWithComp')->get();
+        $Coupon = CouponModel::with('couponWithComp')->where('soft_delete', null)->get();
 //        dd($Coupon);
         return view('admin.Coupons.Coupon-list',compact('Coupon'));
     }
     function Coupon_add()
     {
-        $competition=CompetitionModel::get();
+        $competition=CompetitionModel::where('soft_delete', null)->get();
         return view('admin.Coupons.Coupon-add',compact('competition'));
     }
     function Coupon_edit($id)
