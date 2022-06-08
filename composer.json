@@ -11,6 +11,7 @@
         "laravel/framework": "^8.54",
         "laravel/sanctum": "^2.11",
         "laravel/tinker": "^2.5",
+        "laravel/ui": "^3.4",
         "league/omnipay": "^3.2",
         "omnipay/paypal": "^3.0",
         "square/connect": "^3.20200528",
@@ -26,6 +27,9 @@
         "phpunit/phpunit": "^9.3.3"
     },
     "autoload": {
+        "files": [
+            "app/helper.php"
+        ],
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",

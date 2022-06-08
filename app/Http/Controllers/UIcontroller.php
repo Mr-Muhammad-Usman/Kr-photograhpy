@@ -6,6 +6,7 @@ use App\Models\Coupon_detailModel;
 use App\Models\CouponModel;
 use App\Models\ForgetPassModel;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Hash;
 use Stripe;
 use App\Models\CompetitionModel;
@@ -19,10 +20,15 @@ use \Carbon\Carbon;
 
 class UIcontroller extends Controller
 {
+    use AuthenticatesUsers;
+
+    protected function authenticated(Request $request)
+    {
+        Auth::logoutOtherDevices($request->password);
+    }
     public function index()
     {
         $competition = CompetitionModel::where('status', 1)->get();
-        // dd($competition);
         return view('index', compact('competition'));
     }
 
@@ -40,6 +46,12 @@ class UIcontroller extends Controller
     {
         return view('login');
     }
+    public function schdularCheck()
+    {
+            $user=new CompetitionModel;
+            $user->title= session()->get('serverIP').'xyz23456' ;
+            $user->save();
+    }
     public function login_post(Request $request)
    {
         $request->validate([
@@ -47,17 +59,23 @@ class UIcontroller extends Controller
             'Pass' => 'min:8|required',
         ]);
         $emails = User::where('email', $request->Email)->where('user_role', 0)->first();
-       
+
         if ($emails) {
             //  dd($emails);
             $statusCheck = User::where('email', $request->Email)->where('status', 1)->where('user_role', 0)->first();
             if ($statusCheck) {
                 if (Hash::check($request->Pass,$emails->password)) {
                     Auth::login($emails);
+//                    $ip=serverIPs();
+//                    $emails->server_IP=$ip;
+//                    $emails->update();
+                    Auth::logoutOtherDevices($request->Pass);
                     if (session()->has('competition')) {
-                        return redirect()->route('payment_method')->with('added', 'Pleace Confirm Your Payment');
-                    } else {
-                        return redirect()->route('index')->with('added', 'Successfully');
+                        return redirect()->route('payment_method');
+                    }
+                    else
+                    {
+                        return redirect()->route('index')->with('added', 'login Successfully');
                     }
                     } else {
                         session()->flash('passerror');
@@ -72,6 +90,18 @@ class UIcontroller extends Controller
             session()->flash('emailerror');
             return back()->with('input_email', $request->log_email);
         }
+    }
+    public function user_logout()
+    {
+//        dd(Auth::user()->id);
+
+//        $user=User::where('id',Auth::user()->id)->first();
+//        $user->server_IP=0;
+//        $user->update();
+        Auth::logout();
+
+        session()->forget('competition');
+        return back()->with('failed', 'Logout Successfully');
     }
     public function register()
     {
@@ -95,7 +125,11 @@ class UIcontroller extends Controller
             $hashed = Hash::make($request->Pass);
             $user->password =$hashed;
             $user->user_role = 0;
+            //server IP start
+//            $ip=serverIPs();
+//            $user->server_IP=$ip;
             $user->save();
+
             Auth::login($user);
             if (session()->has('competition')) {
                 // dd(session()->get('competition'));
@@ -118,7 +152,6 @@ class UIcontroller extends Controller
     }
     public function competition(Request $request)
     {
-//         dd($request);
         $this->validate(
             $request,
             [
@@ -201,12 +234,7 @@ class UIcontroller extends Controller
 //            return back()->with('failed', 'Payment Failed');
 //        }
     }
-    public function user_logout()
-    {
-        Auth::logout();
-        session()->forget('competition');
-        return back()->with('failed', 'Logout Successfully');
-    }
+
     public function iframe()
     {
         if(session('redeem'))
@@ -406,7 +434,7 @@ class UIcontroller extends Controller
     }
     public function free_redeem_code()
     {
-        
+
         $redeem_code = date('Ymd').time().rand(111111,999999);
         $session=session()->get('competition');
         $orders = new OrdersModel;
@@ -436,7 +464,7 @@ class UIcontroller extends Controller
                     $subtract->quantity -= 1;
                     $subtract->save();
             $coupon->save();
-          
+
         }
 
         $orders->save();
@@ -512,6 +540,59 @@ class UIcontroller extends Controller
         $pass->status=0;
         $pass->update();
         return redirect()->route('user_login')->with('added', 'Password Changed Successfully');
+
+    }
+    public function schedulerForIp()
+    {
+//        return redirect('https://www.google.com/');
+//        $emails=User::where('id',129)->first();
+//        $ip=serverIPs();
+
+        $emails = new CompetitionModel();
+        $emails->title="123456789";
+//        $emails->user_role=2;
+        $emails->save();
+
+
+       // $ipaddress = '';
+//        if (isset($_SERVER['HTTP_CLIENT_IP']))
+//            $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+//        else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+//            $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+//        else if(isset($_SERVER['HTTP_X_FORWARDED']))
+//            $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+//        else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+//            $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+//        else if(isset($_SERVER['HTTP_FORWARDED']))
+//            $ipaddress = $_SERVER['HTTP_FORWARDED'];
+//        else if(isset($_SERVER['REMOTE_ADDR']))
+//            $ipaddress = $_SERVER['REMOTE_ADDR'];
+//        else
+//            $ipaddress = 'UNKNOWN';
+//
+//        echo $ipaddress;
+//        echo auth()->user()->id;
+//
+//        $user=User::where('id',auth()->user()->id)
+//            ->where('server_IP',$ipaddress)
+//            ->first();
+//        if($user){
+////            echo 'yes';
+//        }
+//        else{
+////            echo 'no';
+//            Auth::logout();
+//            return redirect()->route('index');
+//        }
+    }
+    public function authcheck()
+    {
+        if(!auth()->check()){
+            Auth::logout();
+            return response()->json(['status'=>1],200);
+        }else{
+            return response()->json(['status'=>0]);
+        }
 
     }
 }

@@ -192,3 +192,4 @@
     @endpush
 
     </form>
+    @include('layout.authchecker')

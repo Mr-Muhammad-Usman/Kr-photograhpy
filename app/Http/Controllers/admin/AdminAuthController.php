@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\admin;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +28,6 @@ class AdminAuthController extends Controller
                     Auth::login($userfind);
                     if(Auth::check()){
                         return redirect(route('admin_dashboard'));
-
                     }else{
                         return redirect(route('admin_login'));
                     }
@@ -70,7 +70,7 @@ class AdminAuthController extends Controller
 
     /**-----------------------------------Admin User Functions-------------------------------------------**/
     public function user_list(){
-        $user = User::orderBy('id','ASC')->get();
+        $user = User::orderBy('id','ASC')->where('soft_delete',null)->get();
         return view('admin.users.users-list',compact('user'));
     }
     function user_add()
@@ -84,7 +84,10 @@ class AdminAuthController extends Controller
     }
     function user_delete(User $user)
     {
-        $user->delete();
+//        dd($user);
+        $date=Carbon::now();
+        $user->soft_delete=$date;
+        $user->update();
         return back()->with('delete','Deleted Successfully');
     }
     function user_add_edit_data(Request $request,User $user)

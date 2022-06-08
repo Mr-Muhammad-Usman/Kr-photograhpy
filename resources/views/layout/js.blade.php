@@ -13,6 +13,26 @@
     $(document).ready(function () {
       $("#example").DataTable();
     });
+    function AjaxRequest(url,data)
+    {
+        var res;
+        $.ajax({
+            url: url,
+            data: data,
+            async: false,
+            error: function() {
+                console.log('error');
+            },
+            dataType: 'json',
+            success: function(data) {
+                res= data;
+
+            },
+            type: 'GET'
+        });
+
+        return res;
+    }
   </script>
 @stack('js')
 

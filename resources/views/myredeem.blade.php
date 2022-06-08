@@ -65,3 +65,4 @@
     <!-- end main -->
 
 @endsection
+@include('layout.authchecker')

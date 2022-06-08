@@ -9,6 +9,8 @@ namespace Stripe;
  * &amp; quantities being purchased, the order status, the payment information, and
  * the billing/shipping details.
  *
+ * Related guide: <a href="https://stripe.com/docs/orders">Orders overview</a>
+ *
  * @property string $id Unique identifier for the object.
  * @property string $object String representing the object's type. Objects of the same type share the same value.
  * @property int $amount_subtotal Order cost before any discounts or taxes are applied. A positive integer representing the subtotal of the order in the <a href="https://stripe.com/docs/currencies#zero-decimal">smallest currency unit</a> (e.g., 100 cents to charge $1.00 or 100 to charge ¥100, a zero-decimal currency).
@@ -16,6 +18,7 @@ namespace Stripe;
  * @property null|string|\Stripe\StripeObject $application ID of the Connect application that created the Order, if any.
  * @property \Stripe\StripeObject $automatic_tax
  * @property null|\Stripe\StripeObject $billing_details Customer billing details associated with the order.
+ * @property null|string $client_secret <p>The client secret of this Order. Used for client-side retrieval using a publishable key.</p><p>The client secret can be used to complete a payment for an Order from your frontend. It should not be stored, logged, embedded in URLs, or exposed to anyone other than the customer. Make sure that you have TLS enabled on any page that includes the client secret.</p><p>Refer to our docs for <a href="https://stripe.com/docs/orders-beta/create-and-process">creating and processing an order</a> to learn about how client_secret should be handled.</p>
  * @property int $created Time at which the object was created. Measured in seconds since the Unix epoch.
  * @property string $currency Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>, in lowercase. Must be a <a href="https://stripe.com/docs/currencies">supported currency</a>.
  * @property null|string|\Stripe\Customer $customer The customer which this orders belongs to.
@@ -71,7 +74,7 @@ class Order extends ApiResource
      *
      * @throws \Stripe\Exception\ApiErrorException if the request fails
      *
-     * @return \Stripe\Collection<\Stripe\Order> list of LineItems
+     * @return \Stripe\Collection<\Stripe\LineItem> list of LineItems
      */
     public static function allLineItems($id, $params = null, $opts = null)
     {

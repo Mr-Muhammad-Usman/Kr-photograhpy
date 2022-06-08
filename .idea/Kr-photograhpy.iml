@@ -135,6 +135,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/apimatic/jsonmapper" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/apimatic/unirest-php" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/square/connect" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/ui" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

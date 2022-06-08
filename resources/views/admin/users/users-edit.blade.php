@@ -29,12 +29,12 @@
                                 @endif
                                 <form action="{{route('admin_users_add_edit').'/'.$user->id}}" method="POST" enctype="multipart/form-data">@csrf
                                     <div class="mb-4">
-                                        <label for="title">Username</label>
-                                        <input type="text" class="form-control" required value="{{$user->username}}" name="username">
+{{--                                        <label for="title">Username</label>--}}
+                                        <input type="hidden" class="form-control" value="{{$user->username}}" name="username" >
                                     </div>
                                     <div class="my-4">
-                                        <label for="textarea">Email</label>
-                                        <input type="email" class="form-control" required value="{{$user->email}}" name="email">
+{{--                                        <label for="textarea">Email</label>--}}
+                                        <input type="hidden" class="form-control" value="{{$user->email}}" name="email" >
                                     </div>
 
                                     <fieldset class="my-4">

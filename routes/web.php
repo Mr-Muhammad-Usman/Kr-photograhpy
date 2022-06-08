@@ -21,9 +21,9 @@ use App\Http\Controllers\AdminSquarePaymentController;
 |
 */
 
-// Route::get('/', function () {
-//     return redirect()->route('admin_login');
-// });
+Route::get('/1', function () {
+    return redirect()->route('user_login');
+})->name('login');
 // Route::get('/', function () {
 //     return view('index');
 // });
@@ -36,14 +36,16 @@ Route::get('/password-reset', [UIcontroller::class, 'password_reset'])->name('us
 Route::post('/competition', [UIcontroller::class, 'competition'])->name('competition');
 Route::post('/comp_ajax', [UIcontroller::class, 'comp_ajax'])->name('comp_ajax');
 Route::get('/user-logout', [UIcontroller::class, 'user_logout'])->name('user_logout');
-Route::get('/iframe', [UIcontroller::class, 'iframe'])->name('iframe');
 Route::get('/redeem-code', [UIcontroller::class, 'redeem_code'])->name('ui_redeem_code');
 Route::post('/redeem-code-post', [UIcontroller::class, 'redeem_code_post'])->name('redeem_code_post');
+Route::get('/auth-checker', [UIcontroller::class, 'authcheck'])->name('authcheck');
 
 
 
 
 Route::group(['middleware'=>['usermiddleware']], function(){
+
+    Route::get('/iframe', [UIcontroller::class, 'iframe'])->name('iframe');
     Route::get('/stripe-form', [UIcontroller::class, 'stripe_form'])->name('stripe_form');
     Route::post('/stripe-events', [UIcontroller::class, 'stripe_events'])->name('stripe.post');
     Route::get('/user-myredeem', [UIcontroller::class, 'myredeem'])->name('user_myredeem');
@@ -126,6 +128,8 @@ Route::group(['middleware'=>['protectedPage']], function(){
     /**order Routes */
     Route::get('/admin/order', [AdminOrderController::class, 'order'])->name('order');
     Route::post('/admin/order-filter', [AdminOrderController::class, 'order_filter'])->name('order_filter');
+
+    Route::get('schdularCheck', [UIcontroller::class, 'schdularCheck'])->name('schdularCheck');
 
 });
 

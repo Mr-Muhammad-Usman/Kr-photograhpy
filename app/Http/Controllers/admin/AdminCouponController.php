@@ -23,7 +23,7 @@ class AdminCouponController extends Controller
     }
     function Coupon_edit($id)
     {
-        $competition=CompetitionModel::get();
+        $competition=CompetitionModel::where('soft_delete',null)->get();
         $Coupon = CouponModel::where('id',$id)->first();
         $comp_value=CompetitionModel::where('id',$Coupon->competition_id)->first();
 //        dd($comp_value);
@@ -31,8 +31,6 @@ class AdminCouponController extends Controller
     }
     function Coupon_delete(CouponModel $Coupon)
     {
-//
-            // dd('Deleted Successfully');
             $Coupon->delete();
             return back()->with('delete','Deleted Successfully');
 

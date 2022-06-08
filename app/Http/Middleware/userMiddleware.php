@@ -19,17 +19,15 @@ class userMiddleware
     public function handle(Request $request, Closure $next)
     {
         //
-        if(Auth::check() && Auth::user()->role==0)
+        if(Auth::check() && Auth::user()->user_role==0)
         {
             // $emails=OrdersModel::where('user_id',Auth::user()->id && Auth::user()->user_role==0)->first();
             // if($emails)
             // {
-            //     // dd('nahe mela');
             //     return redirect()->route('user_myredeem')->with('failed','you have already booked competition');
             // }
             // else
             // {
-                // dd('mel gaya');
                 return $next($request);
             // }
         }
@@ -37,6 +35,6 @@ class userMiddleware
             {
                 return redirect()->route('user_login')->with('failed','Loged in First');
             }
-        
+
     }
 }

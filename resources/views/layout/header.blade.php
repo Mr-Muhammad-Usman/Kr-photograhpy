@@ -34,8 +34,8 @@
                              <li>
                                  <a href="{{route('index')}}">Home</a>
                              </li>
-                             <li class=""><a href="{{ route('ui_redeem_code') }}">Redeem code</a>
-                             @if (Auth::check() && Auth::user()->role == 0)
+                             @if (Auth::check() && Auth::user()->user_role == 0)
+                                 <li class=""><a href="{{ route('ui_redeem_code') }}">Redeem code</a>
                                  <li class="my_dorp">
                                     <div class="dropdown">
                                         <button class="dropbtn">{{ Auth::user()->username }}</button>
