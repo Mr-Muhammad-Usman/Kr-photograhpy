@@ -16,6 +16,7 @@ use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Mail;
 use \Carbon\Carbon;
 
 class UIcontroller extends Controller
@@ -56,10 +57,9 @@ class UIcontroller extends Controller
    {
         $request->validate([
             'Email' => 'required',
-            'Pass' => 'min:8|required',
+            'Pass' => 'min:8|required'
         ]);
         $emails = User::where('email', $request->Email)->where('user_role', 0)->first();
-
         if ($emails) {
             //  dd($emails);
             $statusCheck = User::where('email', $request->Email)->where('status', 1)->where('user_role', 0)->first();
@@ -346,7 +346,7 @@ class UIcontroller extends Controller
             'body' => 'Amount is :'.$request['amount'],
         ];
 
-        \Mail::to($user->email)->send(new \App\Mail\MyTestMail($details));
+        Mail::to($user->email)->send(new \App\Mail\MyTestMail($details));
 //dd('Mail send');
         return redirect(route('user_myredeem'))->with('added', 'Thank you for purchasing...');
     }
@@ -498,7 +498,7 @@ class UIcontroller extends Controller
                 'status'=>1,
             ];
 //            dd($details);
-            \Mail::to($request->mail)->send(new \App\Mail\ResetPassword($details));
+            Mail::to($request->mail)->send(new \App\Mail\ResetPassword($details));
             return back()->with('added', 'Pleace visit you mail box...');
         }
         else
