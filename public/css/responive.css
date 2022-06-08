@@ -133,6 +133,9 @@
 
 }
 @media (max-width: 540px) {
+    ul.navbar-set {
+    display: none;
+}
     .bannerText span {
         font-size: 35px;
         line-height: 45px;
@@ -505,7 +508,9 @@
         .navigation ul {
         margin: 5px 0 0 0;
     }
-    
+    ul.navbar-set {
+        display: none;
+    }
         .foter_sec2 button {
         top: 42px;
     }
@@ -527,7 +532,9 @@
     }
 }
 @media (max-width: 375px) {
-
+ul.navbar-set {
+    display: none;
+}
 	.bannerText span {
 	    font-size: 30px;
 	    line-height: 45px;

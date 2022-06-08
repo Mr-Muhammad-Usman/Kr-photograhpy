@@ -50,7 +50,7 @@ ul {
 }
 
 a {
-    font-family: poppins-regular;
+     font-family: Montserrat, sans-serif;
 }
 
 a:hover {
@@ -1077,4 +1077,17 @@ li.my_dorp .dropdown:hover .dropdown-content {
 .profileUpdate
 {
     width: 80%;
+}
+
+
+
+.dropbtn {
+    background-color: transparent;
+    color: white;
+    padding: 0;
+    font-size: 16px;
+    border: none;
+}
+.dropdown-content {
+    border: 0;
 }
