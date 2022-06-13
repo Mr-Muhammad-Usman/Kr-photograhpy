@@ -16,9 +16,15 @@ class SessionMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!Auth::user() ){
+//        dd(Auth::user()->user_role==1);
+        if(Auth::user() && Auth::user()->user_role==1){
+            return $next($request);
+        }
+        else
+        {
             return redirect(route('admin_login'));
         }
-        return $next($request);
+
+
     }
 }

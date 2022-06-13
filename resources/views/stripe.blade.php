@@ -67,7 +67,7 @@
                                             <button id="paynow" class="btn btn-danger btn-lg btn-block" type="submit" onClick="myFunction()">Pay Now ($10)</button>
                                         </div>
                                     </div>
-{{--                                </form>--}}
+{{--</form>--}}
                             </div>
                         </div>
                     </div>

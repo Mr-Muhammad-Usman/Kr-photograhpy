@@ -8,7 +8,7 @@
                     var res = AjaxRequest(url,data);
                     if(res.status==1)
                     {
-                        window.location.replace("http://127.0.0.1:8000/user-login");
+                        window.location.replace("{{route('user_login')}}");
                     }else{
 
                     }

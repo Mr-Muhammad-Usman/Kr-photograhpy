@@ -26,6 +26,7 @@
 <?php
     $count=1;
     ?>
+
                   {{-- @dd($data) --}}
                     @foreach($data as $item)
                         <tr>
@@ -34,7 +35,7 @@
                   <td>{{$count ++}}</td>
                   <td>{{ $item ? Auth::user()->username : ""}}</td>
                   <td>{{ $item ? $item->order_with_comp->title : ""}}</td>
-                  <td>{{ $item ? $item->competition_date : ""}}</td>
+                  <td>{{ $item ? $item->order_with_comp->competition_date : ""}}</td>
                   <td>{{date('Y-m-d',strtotime($item->created_at))}}</td>
                             <td>${{ $item ? $item->price : ""}}</td>
                             <td>{{ $item ? $item->redeem_code : ""}}</td>

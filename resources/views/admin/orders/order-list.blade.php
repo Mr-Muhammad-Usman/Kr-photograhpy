@@ -72,7 +72,7 @@
                                 <td class="border-0 font-weight-bold" style="color: red">competition deleted</td>
                             @endif
 
-                            <td class="border-0">{{ $value->competition_date }}</td>
+                            <td class="border-0">{{ $value->order_with_comp->competition_date }}</td>
                             <td class="border-0">${{ $value->price }}</td>
                             <td class="border-0">{{ $value->redeem_code }}</td>
                             <td class="border-0">{{ $value->payment_method }}</td>

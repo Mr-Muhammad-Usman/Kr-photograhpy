@@ -54,43 +54,51 @@ class UIcontroller extends Controller
             $user->save();
     }
     public function login_post(Request $request)
-   {
+    {
         $request->validate([
             'Email' => 'required',
-            'Pass' => 'min:8|required'
+            'Pass' => 'min:8|required',
         ]);
         $emails = User::where('email', $request->Email)->where('user_role', 0)->first();
         if ($emails) {
-            //  dd($emails);
-            $statusCheck = User::where('email', $request->Email)->where('status', 1)->where('user_role', 0)->first();
-            if ($statusCheck) {
-                if (Hash::check($request->Pass,$emails->password)) {
-                    Auth::login($emails);
-//                    $ip=serverIPs();
-//                    $emails->server_IP=$ip;
-//                    $emails->update();
-                    Auth::logoutOtherDevices($request->Pass);
-                    if (session()->has('competition')) {
-                        return redirect()->route('payment_method');
-                    }
-                    else
-                    {
-                        return redirect()->route('index')->with('added', 'login Successfully');
-                    }
+            $softCheck = User::where('email', $request->Email)->where('status', 1)->where('user_role', 0)->where('soft_delete', null)->first();
+            if($softCheck)
+            {
+                $statusCheck = User::where('email', $request->Email)->where('status', 1)->where('user_role', 0)->first();
+                if ($statusCheck) {
+                    if (Hash::check($request->Pass,$emails->password)) {
+                        Auth::login($emails);
+                        Auth::logoutOtherDevices($request->Pass);
+                        if (session()->has('competition')) {
+                            return redirect()->route('payment_method');
+                        }
+                        else
+                        {
+                            return redirect()->route('index')->with('added', 'login Successfully');
+                        }
                     } else {
                         session()->flash('passerror');
                         return back()->with('input_pass', $request->log_password);
                     }
+                }
+                else {
+                    session()->flash('statusCheck');
+                    return back()->with('input_email', $request->log_email);
+                }
             }
-            else {
-                session()->flash('statusCheck');
+            else
+            {
+                session()->flash('emailerror');
                 return back()->with('input_email', $request->log_email);
-                 }
+            }
+
+
         } else {
             session()->flash('emailerror');
             return back()->with('input_email', $request->log_email);
         }
     }
+
     public function user_logout()
     {
 //        dd(Auth::user()->id);
@@ -180,7 +188,7 @@ class UIcontroller extends Controller
     //inside controller
     public function stripe_payment($email, $token, $price, $desc)
     {
-
+        dd($token);
         /* stripe */
         Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
         $customer = \Stripe\Customer::create(array(
@@ -201,38 +209,38 @@ class UIcontroller extends Controller
     {
 
 
-        // dd($request->all());
-//        $stripe = $this->stripe_payment($request->email, $request->stripeToken, 10, 'Competition RedeemCode Payment');
-//        if ($stripe->status === "succeeded") {
-//            $redeem_code = date('Ymd').time().rand(111111,999999);
-//            $session=session()->get('competition');
-//            $orders = new OrdersModel;
-//            $orders->payer_id = $stripe->id;
-//            $orders->user_id = Auth::user()->id;
-//            $orders->price = $session['amount'] ;
-//            $orders->status = $stripe->status;
-//            $orders->redeem_code = $redeem_code;
-//            $orders->receipt_url = $stripe->receipt_url;
-//            $orders->competition_name =$session['id'] ;
-//            $orders->competition_date = $session['date'] ;
-//            $orders->url = $session['url'] ;
-//            $orders->payment_method = 'stripe';
-//            $comp_name=CompetitionModel::where('id',$session['id'])->first();
-//            session()->put('sendEmail', [
-//                'user_id'=>Auth::user()->id,
-//                'redeem_code'=>$redeem_code,
-//                'amount'=>$session['amount'],
-//                'comp_date'=>$session['date'],
-//                'comp_name'=>$comp_name->title,
-//                ]);
-//
-//            $orders->save();
-//
-//            session()->forget('competition');
-//            return redirect(route('mail_post'));
-//        } else {
-//            return back()->with('failed', 'Payment Failed');
-//        }
+         dd($request->all());
+        $stripe = $this->stripe_payment($request->email, $request->stripeToken, 10, 'Competition RedeemCode Payment');
+        if ($stripe->status === "succeeded") {
+            $redeem_code = date('Ymd').time().rand(111111,999999);
+            $session=session()->get('competition');
+            $orders = new OrdersModel;
+            $orders->payer_id = $stripe->id;
+            $orders->user_id = Auth::user()->id;
+            $orders->price = $session['amount'] ;
+            $orders->status = $stripe->status;
+            $orders->redeem_code = $redeem_code;
+            $orders->receipt_url = $stripe->receipt_url;
+            $orders->competition_name =$session['id'] ;
+            $orders->competition_date = $session['date'] ;
+            $orders->url = $session['url'] ;
+            $orders->payment_method = 'stripe';
+            $comp_name=CompetitionModel::where('id',$session['id'])->first();
+            session()->put('sendEmail', [
+                'user_id'=>Auth::user()->id,
+                'redeem_code'=>$redeem_code,
+                'amount'=>$session['amount'],
+                'comp_date'=>$session['date'],
+                'comp_name'=>$comp_name->title,
+                ]);
+
+            $orders->save();
+
+            session()->forget('competition');
+            return redirect(route('mail_post'));
+        } else {
+            return back()->with('failed', 'Payment Failed');
+        }
     }
 
     public function iframe()
@@ -252,20 +260,17 @@ class UIcontroller extends Controller
     }
     public function redeem_code_post(Request $request)
     {
-        // dd($request);
         $request->validate([
-
             'redeem_code' => 'required|min:24',
         ]);
-        $date = Carbon::now();
         $redeem=OrdersModel::where('redeem_code',$request->redeem_code)->first();
         if($redeem)
         {
-            $redeem_date=OrdersModel::where('competition_date',$date->format('Y-m-d'))
-                ->where('redeem_code',$request->redeem_code)
-                ->first();
-//            dd($redeem_date);
-            if ($redeem_date)
+            $date = Carbon::now();
+            dd( $date);
+            $code = CompetitionModel::where('id',$redeem->competition_name)
+                ->where('competition_date',$date->format('Y-m-d'))->first();
+            if ($code)
             {
                 session()->put('redeem',['code'=>$redeem->redeem_code,'url'=>$redeem->url]);
                 return redirect()->route('iframe');
@@ -275,7 +280,6 @@ class UIcontroller extends Controller
                 session()->flash('Redeemerror1');
                 return back();
             }
-
         }
         else
         {
